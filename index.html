@@ -4,26 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DriveCoding Bayern</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14;--card:#111821;--accent:#2cc5ff;--text:#e8f1f8;--muted:#9fb3c8}
-*{box-sizing:border-box}
-body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#070b10,#0f1822);color:var(--text)}
-header{padding:30px 20px;text-align:center;background:#0c141c;border-bottom:1px solid #1c2a39}
-h1{margin:0;font-size:34px;color:var(--accent)}
-.lang{position:absolute;right:20px;top:20px}
-.lang button{margin-left:6px;background:#162230;border:1px solid #24384d;color:#cfe8ff;padding:6px 10px;border-radius:6px;cursor:pointer}
-.wrap{display:flex;gap:20px;padding:20px;max-width:1300px;margin:auto}
-.menu{width:320px}
-.menu button{width:100%;text-align:left;padding:16px;margin-bottom:12px;background:var(--card);border:none;color:var(--text);border-radius:10px;font-size:16px;cursor:pointer;transition:.25s}
-.menu button:hover{background:#162331}
-.content{flex:1}
-.panel{display:none;background:var(--card);padding:22px;border-radius:12px;margin-bottom:20px;line-height:1.6}
-.panel.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:10px}
-.grid img{width:100%;border-radius:10px;object-fit:cover;height:180px}
-.price{display:flex;justify-content:space-between;border-bottom:1px solid #233244;padding:6px 0}
-.call{position:fixed;bottom:18px;right:18px;background:#1fbf6b;color:white;padding:16px 22px;border-radius:40px;text-decoration:none;font-weight:bold;box-shadow:0 0 18px #1fbf6b}
-footer{text-align:center;padding:18px;color:var(--muted)}
+:root{--accent:#00d0ff}
+body{margin:0;font-family:Roboto,Arial;background:#0b0f14;color:#e6eef5}
+header{padding:25px;text-align:center;background:linear-gradient(90deg,#02060a,#111a22)}
+h1{font-family:Orbitron;font-size:38px;color:var(--accent);margin:0}
+.lang{position:absolute;top:15px;right:20px}
+.lang button{margin:2px;padding:6px 10px;background:#222;border:0;color:#fff;cursor:pointer;border-radius:6px}
+.container{display:flex}
+nav{width:230px;background:#06090d;padding:20px;min-height:100vh}
+nav button{display:block;width:100%;margin:10px 0;padding:14px;background:#121a22;border:0;color:#fff;border-radius:8px;cursor:pointer}
+section{flex:1;padding:30px;display:none}
+.active{display:block}
+.s1{background:#101820}
+.s2{background:#1a1414}
+.s3{background:#141a14}
+.s4{background:#16131a}
+.s5{background:#0f1a1c}
+.card{background:#0b1218;padding:20px;border-radius:12px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.grid img{width:100%;border-radius:10px}
+.call{position:fixed;bottom:20px;right:20px;background:#00ff99;color:#000;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none}
 </style>
 </head>
 <body>
@@ -34,86 +36,52 @@ footer{text-align:center;padding:18px;color:var(--muted)}
 <button onclick="setLang('sr')">SR</button>
 </div>
 <h1>DriveCoding Bayern</h1>
-<p id="subtitle">Fahrzeugcodierung & Diagnose – Nürnberg</p>
+<div id="subtitle"></div>
 </header>
-
-<div class="wrap">
-<div class="menu">
-<button onclick="openPanel('services')" data-de="Leistungen" data-en="Services" data-sr="Usluge">Leistungen</button>
-<button onclick="openPanel('prices')" data-de="Preisliste" data-en="Price List" data-sr="Cenovnik">Preisliste</button>
-<button onclick="openPanel('gallery')" data-de="Galerie" data-en="Gallery" data-sr="Galerija">Galerie</button>
-<button onclick="openPanel('contact')" data-de="Kontakt" data-en="Contact" data-sr="Kontakt">Kontakt</button>
-</div>
-
-<div class="content">
-
-<div id="services" class="panel active">
-<h2 data-de="Was wir machen" data-en="What we do" data-sr="Sta radimo">Was wir machen</h2>
-<p>VAG & BMW Codierung, Freischaltungen, Diagnose, Nachrüstung.</p>
-<ul>
-<li>Start/Stop Memory</li>
-<li>Spiegel anklappen</li>
-<li>Ambientebeleuchtung</li>
-<li>Video in Motion</li>
-<li>Apple CarPlay / Android Auto</li>
-<li>DPF Diagnose</li>
-</ul>
-</div>
-
-<div id="prices" class="panel">
-<h2>Cenovnik</h2>
-<div class="price"><span>Diagnose Basis</span><span>30€</span></div>
-<div class="price"><span>Erweiterte Diagnose</span><span>50€</span></div>
-<div class="price"><span>Live Daten / DPF</span><span>60€</span></div>
-<div class="price"><span>1 Codierung</span><span>40€</span></div>
-<div class="price"><span>2‑3 Codierungen</span><span>70€</span></div>
-<div class="price"><span>Komplettpaket</span><span>120€</span></div>
-<div class="price"><span>Service Reset</span><span>20€</span></div>
-<div class="price"><span>Handbremse Anpassung</span><span>40‑80€</span></div>
-<div class="price"><span>CarPlay Aktivierung</span><span>80€</span></div>
-<div class="price"><span>Android Auto</span><span>80€</span></div>
-</div>
-
-<div id="gallery" class="panel">
-<h2>Galerie</h2>
+<div class="container">
+<nav>
+<button onclick="openPage('leistungen')" id="m1"></button>
+<button onclick="openPage('preise')" id="m2"></button>
+<button onclick="openPage('vag')">VAG</button>
+<button onclick="openPage('bmw')">BMW</button>
+<button onclick="openPage('kontakt')" id="m3"></button>
+</nav>
+<section id="leistungen" class="s1 active">
+<h2 id="l1"></h2>
 <div class="grid">
+<img src="https://images.unsplash.com/photo-1619767886558-efdc7c2f3b2a">
 <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
-<img src="https://images.unsplash.com/photo-1493238792000-8113da705763">
-<img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c">
 <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d">
-<img src="https://images.unsplash.com/photo-1549924231-f129b911e442">
-<img src="https://images.unsplash.com/photo-1502877338535-766e1452684a">
 </div>
+<div class="card" id="ltext"></div>
+</section>
+<section id="preise" class="s2">
+<h2 id="p1"></h2>
+<div class="card" id="plist"></div>
+</section>
+<section id="vag" class="s3">
+<h2>VAG Codierungen</h2>
+<div class="card">Start/Stop Memory<br>Video in Motion<br>Ambientebeleuchtung<br>CarPlay Aktivierung<br>DPF Reset</div>
+</section>
+<section id="bmw" class="s4">
+<h2>BMW Codierungen</h2>
+<div class="card">M Performance Optionen<br>Komfortblinken<br>Start/Stop Default Off<br>Sport Displays<br>Apple CarPlay Fullscreen</div>
+</section>
+<section id="kontakt" class="s5">
+<h2 id="k1"></h2>
+<div class="card">📞 +49 1573 6762046<br>📧 kfz.coding.servis@gmail.com<br>Nürnberg</div>
+</section>
 </div>
-
-<div id="contact" class="panel">
-<h2>Kontakt</h2>
-<p>Telefon / WhatsApp: +49 1573 6762046</p>
-<p>Email: kfz.coding.servis@gmail.com</p>
-<p>Nürnberg & Bayern</p>
-</div>
-
-</div>
-</div>
-
-<a class="call" href="tel:+4915736762046">📞 Pozovi odmah</a>
-<footer>© 2026 DriveCoding Bayern</footer>
-
+<a class="call" id="callbtn" href="tel:+4915736762046"></a>
 <script>
-function openPanel(id){
-document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+function openPage(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+const t={
+ de:{sub:'Fahrzeugcodierung & Diagnose',m1:'Leistungen',m2:'Preisliste',m3:'Kontakt',l1:'Was wir machen',ltext:'Professionelle Codierung und Nachrüstung für VAG & BMW Fahrzeuge.',p1:'Preisliste',plist:'Diagnose 30€<br>Codierung 40€<br>Paket 70€<br>Komplett 120€',k1:'Kontakt',call:'Jetzt anrufen'},
+ en:{sub:'Vehicle coding & diagnostics',m1:'Services',m2:'Price list',m3:'Contact',l1:'What we do',ltext:'Professional coding and retrofit for VAG & BMW cars.',p1:'Prices',plist:'Diagnostics 30€<br>Coding 40€<br>Package 70€<br>Full 120€',k1:'Contact',call:'Call now'},
+ sr:{sub:'Kodiranje i dijagnostika vozila',m1:'Usluge',m2:'Cenovnik',m3:'Kontakt',l1:'Sta radimo',ltext:'Profesionalno kodiranje i aktivacije za VAG i BMW vozila.',p1:'Cene',plist:'Dijagnostika 30€<br>Kodiranje 40€<br>Paket 70€<br>Komplet 120€',k1:'Kontakt',call:'Pozovi odmah'}
 }
-
-function setLang(lang){
-document.querySelectorAll('[data-'+lang+']').forEach(el=>{
-el.innerText=el.getAttribute('data-'+lang);
-});
-if(lang==='en')document.getElementById('subtitle').innerText='Vehicle Coding & Diagnostics – Nuremberg';
-if(lang==='de')document.getElementById('subtitle').innerText='Fahrzeugcodierung & Diagnose – Nürnberg';
-if(lang==='sr')document.getElementById('subtitle').innerText='Kodiranje i dijagnostika vozila – Nirnberg';
-}
+function setLang(l){document.getElementById('subtitle').innerText=t[l].sub;document.getElementById('m1').innerText=t[l].m1;document.getElementById('m2').innerText=t[l].m2;document.getElementById('m3').innerText=t[l].m3;document.getElementById('l1').innerText=t[l].l1;document.getElementById('ltext').innerHTML=t[l].ltext;document.getElementById('p1').innerText=t[l].p1;document.getElementById('plist').innerHTML=t[l].plist;document.getElementById('k1').innerText=t[l].k1;document.getElementById('callbtn').innerText=t[l].call}
+setLang('de');
 </script>
-
 </body>
 </html>
