@@ -5,17 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DriveCoding Bayern</title>
 <style>
-body{font-family:Arial,Helvetica,sans-serif;background:#0f1720;color:#e5e7eb;margin:0}
-header{background:#111827;padding:40px;text-align:center}
-h1{margin:0;font-size:38px;color:#60a5fa}
-.btn{display:inline-block;margin-top:15px;padding:12px 20px;background:#22c55e;color:white;text-decoration:none;border-radius:8px}
-section{padding:30px;max-width:1000px;margin:auto}
-details{background:#1f2937;margin-bottom:15px;border-radius:10px;padding:15px}
-summary{font-size:22px;cursor:pointer;color:#60a5fa}
-.card{background:#111827;padding:15px;border-radius:10px;margin-top:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1720;color:#e5e7eb}
+header{background:linear-gradient(135deg,#0ea5e9,#2563eb);padding:60px 20px;text-align:center}
+header h1{margin:0;font-size:40px}
+header p{opacity:.9}
+.btn{display:inline-block;margin-top:15px;background:#111827;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none}
+.container{display:flex;gap:20px;padding:20px}
+.content{flex:3}
+.sidebar{flex:1}
+.card{background:#111827;border-radius:12px;padding:15px;margin-bottom:15px}
 img{width:100%;border-radius:10px}
-footer{text-align:center;padding:20px;background:#111827;margin-top:40px}
+.accordion{display:flex;gap:10px}
+.panel{flex:1;background:#1f2937;border-radius:12px;overflow:hidden;transition:.4s}
+.panel input{display:none}
+.panel label{display:block;padding:18px;font-weight:bold;background:#111827;cursor:pointer}
+.panel .inside{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .4s ease}
+.panel input:checked~.inside{max-height:800px;padding:18px}
+.price{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #374151}
+footer{text-align:center;padding:20px;background:#020617;margin-top:20px}
+@media(max-width:900px){.container{flex-direction:column}.accordion{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -24,67 +32,54 @@ footer{text-align:center;padding:20px;background:#111827;margin-top:40px}
 <p>Fahrzeugcodierung & Diagnose – Nürnberg</p>
 <a class="btn" href="https://wa.me/4915736762046">WhatsApp Kontakt</a>
 </header>
-<section>
-
-<details open>
-<summary>Leistungen</summary>
-<div class="card">
-Start/Stop Memory • Spiegel anklappen • Video in Motion • Lichtoptionen • Menüfreischaltung • Komfortfunktionen • Nachrüstaktivierungen • Codierungen BMW & VAG
-</div>
-</details>
-
-<details>
-<summary>PreisListe</summary>
-<div class="card">
+<div class="container">
+<div class="content">
+<div class="accordion">
+<div class="panel">
+<input type="checkbox" id="preise">
+<label for="preise">💰 Preisliste</label>
+<div class="inside">
 <h3>Diagnose</h3>
-Fehler auslesen – 30€<br>
-Erweiterte Diagnose – 50€<br>
-Live Daten / DPF – 60€
-
+<div class="price"><span>Fehler auslesen</span><span>30€</span></div>
+<div class="price"><span>Erweiterte Diagnose</span><span>50€</span></div>
+<div class="price"><span>DPF / Live Daten</span><span>60€</span></div>
 <h3>Codierung</h3>
-1 Codierung – 40€<br>
-2-3 Codierungen Paket – 70€<br>
-Komplettpaket – 120€
-
-<h3>Service</h3>
-Service Reset – 20€<br>
-Elektrische Handbremse – 40-80€<br>
-Anpassungen – ab 40€
-
+<div class="price"><span>1 Codierung</span><span>40€</span></div>
+<div class="price"><span>2‑3 Paket</span><span>70€</span></div>
+<div class="price"><span>Komplettpaket</span><span>120€</span></div>
 <h3>Extras</h3>
-Start Stop deaktivieren – 40€<br>
-Spiegel anklappen – 40€<br>
-Coming Home Licht – 40€<br>
-Ambientebeleuchtung – 50€<br>
-Video in Motion – 60€<br>
-Apple CarPlay Aktivierung – 80€<br>
-Android Auto – 80€<br>
-DPF Regeneration – 60€
+<div class="price"><span>Start/Stop deaktivieren</span><span>40€</span></div>
+<div class="price"><span>Ambientebeleuchtung</span><span>50€</span></div>
+<div class="price"><span>Video in Motion</span><span>60€</span></div>
+<div class="price"><span>CarPlay / Android Auto</span><span>80€</span></div>
 </div>
-</details>
-
-<details>
-<summary>Galerie</summary>
-<div class="grid">
-<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
-<img src="https://images.unsplash.com/photo-1493238792000-8113da705763">
-<img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c">
-<img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d">
 </div>
-</details>
-
-<details>
-<summary>Kontakt</summary>
-<div class="card">
-Telefon/WhatsApp: +49 1573 6762046<br>
-Email: kfz.coding.servis@gmail.com<br>
-Mobiler Service im Raum Nürnberg & Bayern
+<div class="panel">
+<input type="checkbox" id="kontakt">
+<label for="kontakt">📞 Kontakt</label>
+<div class="inside">
+<p><b>Telefon/WhatsApp:</b> +49 1573 6762046</p>
+<p><b>Email:</b> kfz.coding.servis@gmail.com</p>
+<p>Mobiler Service in ganz Bayern</p>
 </div>
-</details>
-
-</section>
-<footer>
-© 2026 DriveCoding Bayern
-</footer>
+</div>
+<div class="panel">
+<input type="checkbox" id="info">
+<label for="info">ℹ️ Leistungen</label>
+<div class="inside">
+<p>Start/Stop Memory, Spiegel anklappen, Komfortblinker, Video in Motion, Menüfreischaltungen, Nachrüstungen und Diagnose für VAG & BMW Fahrzeuge.</p>
+<p>Original Software – jederzeit rückgängig – Dauer ca. 15 Minuten</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sidebar">
+<div class="card"><img src="https://images.unsplash.com/photo-1549924231-f129b911e442"></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7"></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70"></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c"></div>
+</div>
+</div>
+<footer>© 2026 DriveCoding Bayern</footer>
 </body>
 </html>
