@@ -3,122 +3,2797 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DriveCoding Bayern</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<title>DriveCoding Bayern – Professionelles Fahrzeug-Coding Nürnberg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0f15;--panel:#121a23;--accent:#39c2ff;--text:#e8f3ff}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
-header{position:fixed;top:0;width:100%;background:#070b10;border-bottom:1px solid #1c2a38;z-index:50}
-header .wrap{display:flex;justify-content:space-between;align-items:center;padding:14px 25px}
-.logo{font-family:Orbitron;color:var(--accent);font-size:22px;cursor:pointer}
-.lang button{margin-left:6px;background:#18222e;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}
-.container{display:flex;margin-top:70px}
-.sidebar{width:230px;background:#0d141c;min-height:100vh;padding:20px;border-right:1px solid #1c2a38}
-.sidebar button{display:block;width:100%;margin:8px 0;padding:12px;background:#15202c;border:none;color:#fff;border-radius:8px;text-align:left;cursor:pointer}
-.sidebar button:hover{background:#1f2d3c}
-.content{flex:1;padding:35px;}
-section{display:none;animation:fade .3s}
-section.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
-.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
-.hero img{width:100%;border-radius:14px}
-.card{background:var(--panel);padding:18px;border-radius:12px;margin-bottom:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-.grid img{width:100%;border-radius:12px}
-.package{cursor:pointer;border:1px solid #2a3b4d}
-.package-details{display:none;margin-top:10px;background:#0e151d;padding:10px;border-radius:10px}
-.call{position:fixed;right:25px;bottom:25px;background:#22c55e;padding:14px 20px;border-radius:30px;color:#032;font-weight:bold;text-decoration:none}
-footer{text-align:center;margin-top:40px;padding:20px;background:#070b10}
+:root {
+  --bg-0: #050709;
+  --bg-1: #080c10;
+  --bg-2: #0b1118;
+  --bg-3: #0e1520;
+  --bg-4: #111a28;
+  --bg-5: #141f30;
+  --accent: #00d4ff;
+  --accent2: #ff6b00;
+  --accent3: #00ff88;
+  --glow: rgba(0,212,255,0.4);
+  --glow2: rgba(255,107,0,0.35);
+  --text: #e8f0f8;
+  --text-dim: #7a90a8;
+  --border: rgba(0,212,255,0.15);
+  --border-hot: rgba(0,212,255,0.5);
+  --sidebar-w: 260px;
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-0);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* =================== SCROLLBAR =================== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* =================== SIDEBAR =================== */
+#sidebar {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, #040608 0%, #06090f 50%, #080c14 100%);
+  border-right: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+#sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+#sidebar-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.logo-wrap {
+  padding: 28px 24px 22px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-icon {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.logo-icon span {
+  color: var(--accent);
+  text-shadow: 0 0 15px var(--accent);
+}
+
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.nav-section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  padding: 18px 24px 8px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+#nav-links {
+  list-style: none;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 12px;
+}
+
+#nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+
+#nav-links a .nav-icon {
+  font-size: 16px;
+  min-width: 20px;
+  text-align: center;
+}
+
+#nav-links a:hover, #nav-links a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(0,212,255,0.06);
+  text-shadow: 0 0 12px rgba(0,212,255,0.5);
+}
+
+#nav-links a.active::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 60%;
+  background: var(--accent);
+  border-radius: 2px 0 0 2px;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.lang-switcher {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.lang-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 7px 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.lang-btn:hover, .lang-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,212,255,0.08);
+  box-shadow: 0 0 10px rgba(0,212,255,0.2);
+}
+
+.sidebar-status {
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent3);
+  box-shadow: 0 0 8px var(--accent3);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+/* =================== MAIN CONTENT =================== */
+#main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+/* =================== SECTIONS =================== */
+section {
+  padding: 90px 60px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#home { background: var(--bg-1); }
+#services { background: var(--bg-2); }
+#vag { background: var(--bg-3); }
+#bmw { background: var(--bg-4); }
+#packages { background: var(--bg-3); }
+#pricing { background: var(--bg-2); }
+#faq { background: var(--bg-3); }
+#contact { background: var(--bg-1); }
+
+/* section decorative lines */
+section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+  opacity: 0.2;
+}
+
+/* =================== SECTION HEADERS =================== */
+.sec-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sec-tag::before {
+  content: '//';
+  opacity: 0.5;
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+h1 {
+  font-size: clamp(32px, 4vw, 52px);
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: clamp(26px, 3vw, 40px);
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.accent { color: var(--accent); }
+.accent2 { color: var(--accent2); }
+.accent3 { color: var(--accent3); }
+
+/* =================== HERO =================== */
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.25);
+  padding: 6px 16px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.hero-desc {
+  font-size: 18px;
+  color: #b0c4d8;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.stat-box {
+  border: 1px solid var(--border);
+  padding: 16px;
+  text-align: center;
+  background: rgba(0,212,255,0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+.stat-box:hover::before { transform: scaleX(1); }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--accent);
+  font-weight: 700;
+  display: block;
+  text-shadow: 0 0 15px rgba(0,212,255,0.5);
+}
+
+.stat-lbl {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.hero-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 3px;
+  font-size: 14px;
+  color: #b0c4d8;
+  font-weight: 500;
+}
+
+.info-item span:first-child {
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.hero-right {
+  position: relative;
+}
+
+.img-card {
+  position: relative;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg-3);
+}
+
+.img-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0.85) saturate(1.1);
+  transition: filter 0.4s, transform 0.5s;
+}
+
+.img-card:hover img { filter: brightness(1) saturate(1.3); transform: scale(1.03); }
+
+.img-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.img-label {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+}
+
+.img-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* =================== BUTTONS =================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+  z-index: -1;
+}
+
+.btn:hover { color: #000; box-shadow: 0 0 30px var(--glow); }
+.btn:hover::before { transform: scaleX(1); }
+
+.btn-wa {
+  border-color: var(--accent3);
+  color: var(--accent3);
+}
+.btn-wa::before { background: var(--accent3); }
+.btn-wa:hover { box-shadow: 0 0 30px rgba(0,255,136,0.4); }
+
+.btn-group { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+
+/* =================== SERVICES SECTION =================== */
+.service-intro {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.service-text p {
+  color: #b0c4d8;
+  margin-bottom: 18px;
+  font-size: 16.5px;
+  line-height: 1.85;
+}
+
+.service-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sh-card {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  transition: all 0.3s;
+}
+
+.sh-card:hover {
+  background: rgba(0,212,255,0.08);
+  border-left-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0,212,255,0.08);
+  transform: translateX(4px);
+}
+
+.sh-card h4 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.sh-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* =================== VAG / BMW FEATURES =================== */
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.brand-logo-box {
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,212,255,0.02));
+  border: 2px solid var(--accent);
+  padding: 12px 24px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px rgba(0,212,255,0.6);
+  box-shadow: 0 0 30px rgba(0,212,255,0.15);
+}
+
+.brand-logo-box.bmw-box {
+  color: var(--accent2);
+  border-color: var(--accent2);
+  background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,107,0,0.02));
+  text-shadow: 0 0 20px rgba(255,107,0,0.6);
+  box-shadow: 0 0 30px rgba(255,107,0,0.15);
+}
+
+.features-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.feature-cat {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  padding: 24px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.feature-cat:hover {
+  border-color: rgba(0,212,255,0.35);
+  box-shadow: 0 0 20px rgba(0,212,255,0.06);
+}
+
+.feature-cat.bmw-cat:hover {
+  border-color: rgba(255,107,0,0.35);
+  box-shadow: 0 0 20px rgba(255,107,0,0.06);
+}
+
+.feature-cat h4 {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.feature-cat.bmw-cat h4 { color: var(--accent2); border-bottom-color: rgba(255,107,0,0.2); }
+
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feature-list li {
+  font-size: 14px;
+  color: #b0c4d8;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.feature-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 10px;
+  top: 3px;
+}
+
+.bmw-cat .feature-list li::before { color: var(--accent2); }
+
+/* =================== PACKAGES =================== */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.pkg-card {
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.pkg-card:hover, .pkg-card.open {
+  border-color: var(--accent);
+  box-shadow: 0 0 25px rgba(0,212,255,0.15);
+}
+
+.pkg-header {
+  padding: 22px 20px;
+  position: relative;
+}
+
+.pkg-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.pkg-price {
+  font-size: 28px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: #fff;
+}
+
+.pkg-price sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.pkg-toggle {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 26px; height: 26px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--accent);
+  transition: transform 0.3s;
+  font-family: var(--font-mono);
+}
+
+.pkg-card.open .pkg-toggle { transform: rotate(45deg); }
+
+.pkg-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 20px;
+  border-top: 0px solid var(--border);
+}
+
+.pkg-card.open .pkg-body {
+  max-height: 500px;
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.pkg-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.pkg-body li {
+  font-size: 13.5px;
+  color: #b0c4d8;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pkg-body li::before {
+  content: '✓';
+  color: var(--accent3);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pkg-recommend {
+  position: absolute;
+  top: 0; right: 0;
+  background: var(--accent2);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 3px 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* =================== PRICING =================== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.price-cat {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.price-cat:hover {
+  border-color: rgba(0,212,255,0.4);
+  box-shadow: 0 0 25px rgba(0,212,255,0.1);
+}
+
+.price-cat-head {
+  padding: 16px 22px;
+  background: rgba(0,212,255,0.07);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-rows {
+  padding: 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14.5px;
+}
+
+.price-row:last-child { border-bottom: none; }
+
+.price-row .price-name { color: #c8d8e8; }
+
+.price-amount {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent3);
+  text-shadow: 0 0 10px rgba(0,255,136,0.3);
+  white-space: nowrap;
+}
+
+.pricing-note {
+  grid-column: 1 / -1;
+  background: rgba(255,107,0,0.07);
+  border: 1px solid rgba(255,107,0,0.25);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 15px;
+  color: #c0b090;
+}
+
+.pricing-note .pn-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+/* =================== FAQ =================== */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 900px;
+}
+
+.faq-item {
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.faq-q {
+  padding: 18px 22px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.faq-q:hover, .faq-item.open .faq-q {
+  background: rgba(0,212,255,0.06);
+  color: var(--accent);
+}
+
+.faq-arrow {
+  font-size: 14px;
+  color: var(--accent);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  padding: 0 22px;
+  color: #9db0c5;
+  font-size: 15px;
+  line-height: 1.75;
+  border-top: 0px solid var(--border);
+}
+
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding: 16px 22px 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* =================== CONTACT =================== */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-top: 30px;
+}
+
+.contact-info-card {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid var(--border);
+  padding: 30px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.contact-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ci-icon {
+  width: 44px; height: 44px;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.ci-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.ci-value {
+  font-size: 15px;
+  color: #c8d8e8;
+  font-weight: 600;
+}
+
+.ci-value a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: text-shadow 0.2s;
+}
+
+.ci-value a:hover { text-shadow: 0 0 12px rgba(0,212,255,0.7); }
+
+.map-container {
+  border: 1px solid var(--border);
+  overflow: hidden;
+  height: 100%;
+  min-height: 380px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: brightness(0.75) saturate(0.7) invert(0.9) hue-rotate(180deg);
+}
+
+.hours-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.hour-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.3);
+  font-size: 13px;
+}
+
+.hour-row .day { color: var(--text-dim); }
+.hour-row .time { color: var(--accent3); font-family: var(--font-mono); font-size: 12px; }
+
+/* =================== TRUST BADGES =================== */
+.trust-bar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(0,255,136,0.04);
+  border: 1px solid rgba(0,255,136,0.15);
+  font-size: 13px;
+  color: #a0c0b0;
+  font-weight: 600;
+}
+
+.trust-item span:first-child { color: var(--accent3); font-size: 16px; }
+
+/* =================== CTA BANNER =================== */
+.cta-banner {
+  background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,0,0,0) 60%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding: 26px 30px;
+  margin: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cta-text {
+  font-size: 16px;
+  color: #c0d4e4;
+  font-weight: 500;
+}
+
+.cta-text strong { color: var(--accent); }
+
+/* =================== FLOATING BUTTONS =================== */
+#float-btns {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 200;
+}
+
+.float-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.float-btn-call {
+  background: linear-gradient(135deg, #0090aa, #00c8e8);
+  box-shadow: 0 4px 20px rgba(0,212,255,0.4);
+  color: #000;
+}
+
+.float-btn-wa {
+  background: linear-gradient(135deg, #128c3e, #25d366);
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  color: #fff;
+}
+
+.float-btn:hover {
+  transform: scale(1.12) translateY(-2px);
+}
+
+.float-label {
+  position: absolute;
+  right: 68px;
+  background: rgba(0,0,0,0.85);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  letter-spacing: 1px;
+}
+
+.float-btn:hover .float-label { opacity: 1; }
+
+/* =================== HAMBURGER =================== */
+#hamburger {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 300;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+  transition: all 0.3s;
+}
+
+/* =================== DECORATIVE =================== */
+.corner-deco {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+}
+
+.corner-deco.tl { top: 20px; left: 20px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.corner-deco.tr { top: 20px; right: 20px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+.section-bg-art {
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: 180px;
+  font-weight: 900;
+  color: rgba(0,212,255,0.025);
+  letter-spacing: -10px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+/* =================== RESPONSIVE =================== */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 220px; }
+  section { padding: 70px 40px; }
+  .hero-layout, .pricing-grid { grid-template-columns: 1fr; }
+  .pkg-grid { grid-template-columns: 1fr 1fr; }
+  .features-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root { --sidebar-w: 260px; }
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.mobile-open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #hamburger { display: flex; }
+  section { padding: 60px 22px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .hero-info-grid { grid-template-columns: 1fr; }
+  .pkg-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; }
+  .service-intro { grid-template-columns: 1fr; }
+  .features-layout { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
+}
+
+/* scanlines effect on body */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.img-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, rgba(0,212,255,0.03) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0,212,255,0.03) 25%, transparent 25%);
+  background-size: 30px 30px;
+}
+
+.img-ph-icon { font-size: 38px; z-index: 1; }
+.img-ph-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+/* animated border */
+@keyframes border-glow {
+  0%,100% { box-shadow: 0 0 10px rgba(0,212,255,0.2); }
+  50% { box-shadow: 0 0 25px rgba(0,212,255,0.5); }
+}
+
+.glow-border {
+  animation: border-glow 3s ease-in-out infinite;
+}
 </style>
 </head>
 <body>
-<header>
-<div class="wrap">
-<div class="logo" onclick="openSection('home')">DriveCoding Bayern</div>
-<div class="lang">
-<button onclick="setLang('de')">DE</button>
-<button onclick="setLang('en')">EN</button>
-<button onclick="setLang('sr')">SR</button>
-</div>
-</div>
-</header>
-<div class="container">
-<div class="sidebar">
-<button onclick="openSection('home')" data-t="nav_home">Start</button>
-<button onclick="openSection('services')" data-t="nav_services">Leistungen</button>
-<button onclick="openSection('vag')">VAG</button>
-<button onclick="openSection('bmw')">BMW</button>
-<button onclick="openSection('packages')" data-t="nav_packages">Pakete</button>
-<button onclick="openSection('gallery')" data-t="nav_gallery">Galerie</button>
-<button onclick="openSection('contact')" data-t="nav_contact">Kontakt</button>
-</div>
-<div class="content">
-<section id="home" class="active">
-<h2 data-t="home_title">Professionelle Codierung & Diagnose in Nürnberg</h2>
-<p data-t="home_desc">Wir codieren VAG & BMW Fahrzeuge ab Baujahr 2010+. Freischaltungen, Nachrüstungen und Diagnose vor Ort.</p>
-<div class="hero">
-<div class="grid">
-<img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a">
-<img src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f">
-<img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2">
-<img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537">
-</div>
-<div class="card">
-<h3 data-t="why_title">Warum wir?</h3>
-<p data-t="why_desc">Mobile Service im Raum Nürnberg & Bayern. Original Software – keine Schäden, jederzeit rückgängig.</p>
-</div>
-</div>
+
+<!-- =================== SIDEBAR =================== -->
+<nav id="sidebar">
+  <div id="sidebar-grid"></div>
+  <div class="logo-wrap" onclick="scrollToSection('home')">
+    <div class="logo-icon">Drive<span>Coding</span></div>
+    <div class="logo-sub">Bayern // KFZ Systeme</div>
+  </div>
+  <div class="sidebar-status">
+    <div class="status-dot"></div>
+    <span data-i18n="status">SYSTEM ONLINE</span>
+  </div>
+  <div class="nav-section-label" data-i18n="nav_label">Navigation</div>
+  <ul id="nav-links">
+    <li><a href="#home" onclick="scrollToSection('home')"><span class="nav-icon">⌂</span><span data-i18n="nav_home">Home</span></a></li>
+    <li><a href="#services" onclick="scrollToSection('services')"><span class="nav-icon">⚙</span><span data-i18n="nav_services">Leistungen</span></a></li>
+    <li><a href="#vag" onclick="scrollToSection('vag')"><span class="nav-icon">◈</span><span data-i18n="nav_vag">VAG Coding</span></a></li>
+    <li><a href="#bmw" onclick="scrollToSection('bmw')"><span class="nav-icon">◈</span><span data-i18n="nav_bmw">BMW Coding</span></a></li>
+    <li><a href="#packages" onclick="scrollToSection('packages')"><span class="nav-icon">▤</span><span data-i18n="nav_packages">Pakete</span></a></li>
+    <li><a href="#pricing" onclick="scrollToSection('pricing')"><span class="nav-icon">€</span><span data-i18n="nav_pricing">Preisliste</span></a></li>
+    <li><a href="#faq" onclick="scrollToSection('faq')"><span class="nav-icon">?</span><span data-i18n="nav_faq">FAQ</span></a></li>
+    <li><a href="#contact" onclick="scrollToSection('contact')"><span class="nav-icon">✉</span><span data-i18n="nav_contact">Kontakt</span></a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('sr')">SR</button>
+  </div>
+</nav>
+
+<!-- Hamburger -->
+<button id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- =================== MAIN =================== -->
+<main id="main">
+
+<!-- =================== HOME =================== -->
+<section id="home">
+  <div class="corner-deco tl"></div>
+  <div class="corner-deco tr"></div>
+  <div class="section-bg-art">DCB</div>
+
+  <div class="sec-tag" data-i18n="home_tag">Professionelles Fahrzeug-Coding</div>
+  <h1><span data-i18n="home_title">Mobile Fahrzeug-<span class="accent">Codierung</span></span></h1>
+  <p class="hero-desc" data-i18n="home_subtitle">Professionelle ECU-Codierung für VAG und BMW Fahrzeuge direkt bei Ihnen vor Ort — ohne Werkstattbesuch, ohne Demontage, ohne Risiko.</p>
+
+  <div class="trust-bar">
+    <div class="trust-item"><span>✓</span><span data-i18n="trust_1">Original Software</span></div>
+    <div class="trust-item"><span>✓</span><span data-i18n="trust_2">Reversibel</span></div>
+    <div class="trust-item"><span>✓</span><span data-i18n="trust_3">Kein Garantieverlust</span></div>
+    <div class="trust-item"><span>✓</span><span data-i18n="trust_4">Keine Demontage</span></div>
+    <div class="trust-item"><span>✓</span><span data-i18n="trust_5">VAG & BMW ab 2010+</span></div>
+  </div>
+
+  <div class="hero-layout">
+    <div class="hero-left">
+      <div class="hero-stats">
+        <div class="stat-box">
+          <span class="stat-num">15'</span>
+          <span class="stat-lbl" data-i18n="stat_min">Min. Dauer</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">100%</span>
+          <span class="stat-lbl" data-i18n="stat_safe">Sicher</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">Bayern</span>
+          <span class="stat-lbl" data-i18n="stat_area">Einsatzgebiet</span>
+        </div>
+      </div>
+
+      <div class="hero-info-grid">
+        <div class="info-item"><span>📍</span><span data-i18n="info_loc">Nürnberg & Bayern</span></div>
+        <div class="info-item"><span>🚗</span><span data-i18n="info_car">VAG & BMW ab 2010+</span></div>
+        <div class="info-item"><span>🕐</span><span data-i18n="info_dur">15–40 Min. pro Fahrzeug</span></div>
+        <div class="info-item"><span>🔧</span><span data-i18n="info_soft">Original Hersteller-Software</span></div>
+        <div class="info-item"><span>⚡</span><span data-i18n="info_rev">Jederzeit rückgängig</span></div>
+        <div class="info-item"><span>📞</span><span data-i18n="info_mob">Mobiler Service vor Ort</span></div>
+      </div>
+
+      <div class="btn-group">
+        <a href="tel:+4915736762046" class="btn">📞 <span data-i18n="btn_call">Jetzt Anrufen</span></a>
+        <a href="https://wa.me/4915736762046" class="btn btn-wa" target="_blank">💬 WhatsApp</a>
+      </div>
+
+      <div class="cta-banner" style="margin-top:30px;">
+        <div class="cta-text"><strong data-i18n="cta_vin">VIN-Prüfung anfordern</strong><br><span data-i18n="cta_vin_sub">Senden Sie Ihre Fahrzeugidentifikationsnummer — wir prüfen die verfügbaren Codieroptionen für Ihr Modell.</span></div>
+        <a href="https://wa.me/4915736762046" class="btn btn-wa" target="_blank"><span data-i18n="btn_vin">VIN senden</span></a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="img-card glow-border">
+        <div class="img-placeholder" style="aspect-ratio:4/3;">
+          <div class="img-ph-icon">💻</div>
+          <div class="img-ph-label" data-i18n="img_coding">Laptop kodiert Fahrzeug</div>
+        </div>
+        <div class="img-label" data-i18n="img_ecu">ECU Coding Interface</div>
+      </div>
+      <div class="img-grid-2">
+        <div class="img-card">
+          <div class="img-placeholder" style="aspect-ratio:1;">
+            <div class="img-ph-icon">🔌</div>
+            <div class="img-ph-label" data-i18n="img_obd">OBD Verbindung</div>
+          </div>
+          <div class="img-label">OBD-II</div>
+        </div>
+        <div class="img-card">
+          <div class="img-placeholder" style="aspect-ratio:1;">
+            <div class="img-ph-icon">📱</div>
+            <div class="img-ph-label" data-i18n="img_carplay">CarPlay Aktivierung</div>
+          </div>
+          <div class="img-label">CarPlay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Working hours -->
+  <div style="margin-top:50px;">
+    <h3 data-i18n="hours_title">Öffnungszeiten / Erreichbarkeit</h3>
+    <div class="hours-grid">
+      <div class="hour-row"><span class="day" data-i18n="mon">Montag</span><span class="time">09:00 – 19:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="tue">Dienstag</span><span class="time">09:00 – 19:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="wed">Mittwoch</span><span class="time">09:00 – 19:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="thu">Donnerstag</span><span class="time">09:00 – 19:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="fri">Freitag</span><span class="time">09:00 – 19:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="sat">Samstag</span><span class="time">09:00 – 17:00</span></div>
+      <div class="hour-row"><span class="day" data-i18n="sun">Sonntag</span><span class="time" data-i18n="closed">Geschlossen</span></div>
+    </div>
+  </div>
 </section>
+
+<!-- =================== SERVICES =================== -->
 <section id="services">
-<h2>Leistungen</h2>
-<div class="grid">
-<div class="card">Fehlerspeicher Diagnose</div>
-<div class="card">CarPlay & Android Auto Aktivierung</div>
-<div class="card">Ambientebeleuchtung Freischaltung</div>
-<div class="card">Assistenzsysteme Codierung</div>
-<div class="card">Nachrüstung Funktionen</div>
-<div class="card">DPF & Sensor Live Daten</div>
-</div>
+  <div class="section-bg-art">SVC</div>
+  <div class="sec-tag" data-i18n="svc_tag">Was wir tun</div>
+  <h2 data-i18n="svc_title">Unsere <span class="accent">Leistungen</span></h2>
+
+  <div class="service-intro">
+    <div class="service-text">
+      <p data-i18n="svc_p1">Fahrzeug-Codierung ist der Prozess, bei dem werksseitig gesperrte oder versteckte Funktionen in der Steuergeräte-Software (ECU/BCM/Gateway) eines Fahrzeugs gezielt freigeschaltet oder angepasst werden. Diese Funktionen sind physisch im Fahrzeug vorhanden, jedoch aus markt- oder länderspezifischen Gründen deaktiviert — wir schalten sie sicher und sauber frei.</p>
+      <p data-i18n="svc_p2">Durch professionelle Codierung gewinnen Fahrzeugbesitzer Komfortfunktionen, die sonst teuer als Sonderausstattung bestellt werden müssten. Viele dieser Features sind bereits in Ihrem Fahrzeug verbaut — Sie zahlen lediglich für die Freischaltung, nicht für zusätzliche Hardware. Das bedeutet: kein Einbau, kein Ausbau, keine Gewährleistungsrisiken.</p>
+      <p data-i18n="svc_p3">Warum entscheiden sich immer mehr Fahrzeughalter für eine professionelle Codierung? Weil die Hersteller zahlreiche Komfort- und Sicherheitsfunktionen serienmäßig deaktivieren, obwohl diese technisch implementiert sind. Apple CarPlay, ambientes Licht, automatisches Spiegeln, erweiterte Assistenzsysteme — all das ist oft bereits in Ihrem Steuergerät vorhanden und wartet nur auf die Freischaltung.</p>
+      <p data-i18n="svc_p4">Unsere Codierungen erfolgen ausschließlich mit Original-Herstellersoftware (VCDS, ODIS, ISTA, E-SYS) über offizielle OBD-Schnittstellen. Es werden keine Chips verlötet, keine Kabel modifiziert und keine Drittanbieter-Firmware installiert. Jede Codierung ist vollständig reversibel — auf Wunsch stellen wir den Originalzustand jederzeit kostenlos wieder her.</p>
+      <p data-i18n="svc_p5">Unser mobiler Service bedeutet: Sie müssen nicht zur Werkstatt. Unser Techniker kommt direkt zu Ihnen — nach Hause, zum Arbeitsplatz oder zu jedem anderen Ort in Nürnberg und dem gesamten Bayern. Ein Coding-Einsatz dauert in der Regel nur 15 bis 40 Minuten. Das Fahrzeug bleibt dabei voll funktionsfähig, keine Kontrollleuchten, keine Fehlermeldungen.</p>
+
+      <div class="cta-banner">
+        <div class="cta-text" data-i18n="svc_cta">Kontaktieren Sie uns für eine Kompatibilitätsprüfung Ihres Fahrzeugs — kostenlos und unverbindlich.</div>
+        <a href="tel:+4915736762046" class="btn"><span data-i18n="btn_call">Jetzt Anrufen</span></a>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="sh-card">
+          <h4 data-i18n="sh1_t">🔍 Diagnose & Fehleranalyse</h4>
+          <p data-i18n="sh1_p">Vollständige Systemdiagnose aller Steuergeräte, Fehlercodes auslesen, Livedaten überwachen — professionell und präzise.</p>
+        </div>
+        <div class="sh-card">
+          <h4 data-i18n="sh2_t">⚙️ ECU / BCM Codierung</h4>
+          <p data-i18n="sh2_p">Freischaltung versteckter Funktionen in Motorsteuergerät, Karosseriesteuergerät und Infotainmentsystem.</p>
+        </div>
+        <div class="sh-card">
+          <h4 data-i18n="sh3_t">📱 Infotainment Aktivierung</h4>
+          <p data-i18n="sh3_p">Apple CarPlay, Android Auto, Video in Motion, MirrorLink und weitere Multimedia-Funktionen.</p>
+        </div>
+        <div class="sh-card">
+          <h4 data-i18n="sh4_t">🎨 Komfort & Licht</h4>
+          <p data-i18n="sh4_p">Ambiente-Beleuchtung, Coming-Home/Leaving-Home, Spiegelklappen, Start/Stop-Deaktivierung und mehr.</p>
+        </div>
+        <div class="sh-card">
+          <h4 data-i18n="sh5_t">🔧 Service-Funktionen</h4>
+          <p data-i18n="sh5_p">Serviceintervall-Reset, elektrische Parkbremse einstellen, DPF-Regeneration, Adaptionen zurücksetzen.</p>
+        </div>
+      </div>
+
+      <div class="img-card" style="margin-top:16px;">
+        <div class="img-placeholder" style="aspect-ratio:16/7;">
+          <div class="img-ph-icon">🖥️</div>
+          <div class="img-ph-label" data-i18n="img_diag">Diagnose Software</div>
+        </div>
+        <div class="img-label">VCDS / ODIS</div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<!-- =================== VAG =================== -->
 <section id="vag">
-<h2>VAG Funktionen</h2>
-<div class="card">Start Stop Memory, Spiegel anklappen, Lane Assist, Verkehrszeichenerkennung, App Connect, Virtual Cockpit Optionen, Coming Leaving Home</div>
+  <div class="section-bg-art">VAG</div>
+  <div class="sec-tag" data-i18n="vag_tag">Volkswagen Konzern</div>
+  <div class="brand-header">
+    <div class="brand-logo-box">VAG</div>
+    <h2 data-i18n="vag_title">VAG <span class="accent">Coding</span> Features</h2>
+  </div>
+  <p style="color:#9db0c5;max-width:750px;margin-bottom:30px;font-size:16px;" data-i18n="vag_intro">
+    Für alle Fahrzeuge des Volkswagen-Konzerns (VW, Audi, Seat, Škoda, Porsche) ab Baujahr 2010 bieten wir umfangreiche Codieroptionen über VCDS und ODIS. Folgende Funktionen können freigeschaltet oder angepasst werden:
+  </p>
+
+  <div class="features-layout">
+    <div class="feature-cat">
+      <h4 data-i18n="vag_cat1">🚗 Komfort & Beleuchtung</h4>
+      <ul class="feature-list">
+        <li data-i18n="vag_f1">Coming Home / Leaving Home aktivieren</li>
+        <li data-i18n="vag_f2">Spiegel automatisch klappen beim Verriegeln</li>
+        <li data-i18n="vag_f3">Start/Stop System dauerhaft deaktivieren (Memory)</li>
+        <li data-i18n="vag_f4">Ambiente-Beleuchtung Farben & Intensität anpassen</li>
+        <li data-i18n="vag_f5">Türen-Alarm Ton deaktivieren</li>
+        <li data-i18n="vag_f6">Rückfahrkamera automatisch aktivieren</li>
+        <li data-i18n="vag_f7">Tagfahrlicht als Fernlichtassistent</li>
+        <li data-i18n="vag_f8">Lane Assist (Spurhalteassistent) einstellen</li>
+        <li data-i18n="vag_f9">Kurvenlicht / Abbiegelicht aktivieren</li>
+        <li data-i18n="vag_f10">Begrüßungsblinken deaktivieren</li>
+        <li data-i18n="vag_f11">Innenbeleuchtung Helligkeit anpassen</li>
+        <li data-i18n="vag_f12">Gepäckklappe Höhe kalibrieren</li>
+      </ul>
+    </div>
+    <div class="feature-cat">
+      <h4 data-i18n="vag_cat2">📱 Infotainment & Connectivity</h4>
+      <ul class="feature-list">
+        <li data-i18n="vag_g1">Apple CarPlay freischalten (wireless & kabelgebunden)</li>
+        <li data-i18n="vag_g2">Android Auto aktivieren</li>
+        <li data-i18n="vag_g3">Video in Motion freischalten</li>
+        <li data-i18n="vag_g4">MirrorLink Funktion aktivieren</li>
+        <li data-i18n="vag_g5">Bluetooth Codec aptX freischalten</li>
+        <li data-i18n="vag_g6">Displayhelligkeit im Automatikmodus anpassen</li>
+        <li data-i18n="vag_g7">OPS (Einparkhilfe) Ton & Melodie ändern</li>
+        <li data-i18n="vag_g8">Navi-Karte im Kombiinstrument anzeigen</li>
+        <li data-i18n="vag_g9">Sprachsteuerung (Voice) aktivieren</li>
+        <li data-i18n="vag_g10">Online-Dienste aktivieren</li>
+        <li data-i18n="vag_g11">Always-on Display aktivieren</li>
+        <li data-i18n="vag_g12">Radio-Text & RDS-Daten anzeigen</li>
+      </ul>
+    </div>
+    <div class="feature-cat">
+      <h4 data-i18n="vag_cat3">🔧 Fahrwerk & Assistenten</h4>
+      <ul class="feature-list">
+        <li data-i18n="vag_h1">Fahrprofile (Sport/Comfort/Eco) aktivieren</li>
+        <li data-i18n="vag_h2">ESC/ESP Traktionskontrolle deaktivierbar machen</li>
+        <li data-i18n="vag_h3">Bremsassistent kalibrieren</li>
+        <li data-i18n="vag_h4">Frontassistent (Notbremsung) einstellen</li>
+        <li data-i18n="vag_h5">Spurwechselassistent (Side Assist) kalibrieren</li>
+        <li data-i18n="vag_h6">Abstandsregeltempomat ACC aktivieren</li>
+        <li data-i18n="vag_h7">Verkehrszeichenerkennung einstellen</li>
+        <li data-i18n="vag_h8">Totwinkelassistent aktivieren</li>
+        <li data-i18n="vag_h9">Müdigkeitserkennung einstellen</li>
+        <li data-i18n="vag_h10">Reifendrucksystem (TPMS) kalibrieren</li>
+      </ul>
+    </div>
+    <div class="feature-cat">
+      <h4 data-i18n="vag_cat4">⚡ Motor & Getriebe</h4>
+      <ul class="feature-list">
+        <li data-i18n="vag_i1">DPF-Regeneration manuell auslösen</li>
+        <li data-i18n="vag_i2">Serviceintervall zurücksetzen (ÖL, Inspektion)</li>
+        <li data-i18n="vag_i3">Adaptionswerte zurücksetzen nach Motorarbeiten</li>
+        <li data-i18n="vag_i4">Drosselklappe anlernen</li>
+        <li data-i18n="vag_i5">Getriebeöltemperatur anzeigen</li>
+        <li data-i18n="vag_i6">Launch Control aktivieren</li>
+        <li data-i18n="vag_i7">Sound-Aktuator (Virtual Engine Sound) anpassen</li>
+        <li data-i18n="vag_i8">Abgasklappe Verhalten ändern</li>
+        <li data-i18n="vag_i9">Kraftstoffverbrauchsanzeige kalibrieren</li>
+        <li data-i18n="vag_i10">Batterie nach Tausch kodieren & anlernen</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-banner" style="margin-top:30px;">
+    <div class="cta-text" data-i18n="vag_cta">Nicht sicher, ob Ihre VAG-Modell unterstützt wird? Senden Sie uns Ihre FIN/VIN — wir prüfen kostenlos alle verfügbaren Optionen.</div>
+    <a href="https://wa.me/4915736762046" class="btn btn-wa" target="_blank"><span data-i18n="btn_check">Kompatibilität prüfen</span></a>
+  </div>
 </section>
+
+<!-- =================== BMW =================== -->
 <section id="bmw">
-<h2>BMW Funktionen</h2>
-<div class="card">CarPlay Fullscreen, Sportanzeigen, Ambientebeleuchtung, Video in Motion, Gurtwarner deaktivieren, Remote Start</div>
+  <div class="section-bg-art">BMW</div>
+  <div class="sec-tag" data-i18n="bmw_tag">BMW Gruppe</div>
+  <div class="brand-header">
+    <div class="brand-logo-box bmw-box">BMW</div>
+    <h2 data-i18n="bmw_title">BMW <span class="accent2">Coding</span> Features</h2>
+  </div>
+  <p style="color:#9db0c5;max-width:750px;margin-bottom:30px;font-size:16px;" data-i18n="bmw_intro">
+    Für alle BMW und MINI Fahrzeuge ab Baujahr 2010 bieten wir professionelle Codierung über E-SYS, ISTA und NCS Expert. Umfangreiche Anpassungen für Komfort, Infotainment und Fahrzeugverhalten:
+  </p>
+
+  <div class="features-layout">
+    <div class="feature-cat bmw-cat">
+      <h4 data-i18n="bmw_cat1">🚗 Komfort & Beleuchtung</h4>
+      <ul class="feature-list">
+        <li data-i18n="bmw_f1">Coming Home / Leaving Home Licht aktivieren</li>
+        <li data-i18n="bmw_f2">Spiegel automatisch einfalten beim Schließen</li>
+        <li data-i18n="bmw_f3">Start/Stop Deaktivierung dauerhaft merken</li>
+        <li data-i18n="bmw_f4">Ambientes Licht Farben & Zonen anpassen</li>
+        <li data-i18n="bmw_f5">Daytime Running Light (DRL) Helligkeit</li>
+        <li data-i18n="bmw_f6">Kurvenlicht Adaptive Lights aktivieren</li>
+        <li data-i18n="bmw_f7">Welcome Light / Interior Begrüßungslicht</li>
+        <li data-i18n="bmw_f8">Hupe deaktivieren beim Verriegeln</li>
+        <li data-i18n="bmw_f9">Automatisches Schließen nach Geschwindigkeit</li>
+        <li data-i18n="bmw_f10">Scheibenwischer-Regensensor kalibrieren</li>
+        <li data-i18n="bmw_f11">Warnblinkanlage bei Notbremsung</li>
+        <li data-i18n="bmw_f12">Abblendlicht als Tagfahrlicht konfigurieren</li>
+      </ul>
+    </div>
+    <div class="feature-cat bmw-cat">
+      <h4 data-i18n="bmw_cat2">📱 iDrive & Infotainment</h4>
+      <ul class="feature-list">
+        <li data-i18n="bmw_g1">Apple CarPlay freischalten (Wireless & kabelgebunden)</li>
+        <li data-i18n="bmw_g2">Android Auto aktivieren</li>
+        <li data-i18n="bmw_g3">Video in Motion freischalten</li>
+        <li data-i18n="bmw_g4">MirrorLink Aktivierung</li>
+        <li data-i18n="bmw_g5">Netflix/YouTube im Stand freischalten</li>
+        <li data-i18n="bmw_g6">Navi-Karte im digitalen Kombiinstrument</li>
+        <li data-i18n="bmw_g7">HUD (Head-Up Display) Konfiguration</li>
+        <li data-i18n="bmw_g8">iDrive Hintergrundfarbe anpassen</li>
+        <li data-i18n="bmw_g9">DAB+ Radio aktivieren</li>
+        <li data-i18n="bmw_g10">PDC (Parksensoren) Ton anpassen</li>
+        <li data-i18n="bmw_g11">Kamera 360° aktivieren</li>
+        <li data-i18n="bmw_g12">Sprachsteuerung optimieren</li>
+      </ul>
+    </div>
+    <div class="feature-cat bmw-cat">
+      <h4 data-i18n="bmw_cat3">🏎️ M-Sport & Performance</h4>
+      <ul class="feature-list">
+        <li data-i18n="bmw_h1">M-Individuell Lenkradmodi anpassen</li>
+        <li data-i18n="bmw_h2">M Drive Speicher konfigurieren</li>
+        <li data-i18n="bmw_h3">Launch Control aktivieren</li>
+        <li data-i18n="bmw_h4">Sport+ Modus in Fahrselectschalter</li>
+        <li data-i18n="bmw_h5">Abgasklappe Verhalten im Sport Modus</li>
+        <li data-i18n="bmw_h6">Sound-Booster (Motorsound) anpassen</li>
+        <li data-i18n="bmw_h7">xDrive Torque Verteilung anpassen</li>
+        <li data-i18n="bmw_h8">M-Button Belegung individuell</li>
+        <li data-i18n="bmw_h9">Sportanzeige: Lenkwinkel, G-Kraft, Motoröl</li>
+        <li data-i18n="bmw_h10">DSC OFF dauerhaft verfügbar machen</li>
+      </ul>
+    </div>
+    <div class="feature-cat bmw-cat">
+      <h4 data-i18n="bmw_cat4">⚡ Service & Diagnose</h4>
+      <ul class="feature-list">
+        <li data-i18n="bmw_i1">Serviceintervall (CBS) zurücksetzen</li>
+        <li data-i18n="bmw_i2">Neue Batterie kodieren & anlernen</li>
+        <li data-i18n="bmw_i3">Parkbremse für Bremsbelagwechsel öffnen</li>
+        <li data-i18n="bmw_i4">Steuergeräte-Anlernung nach Tausch</li>
+        <li data-i18n="bmw_i5">Drosselklappe / Lenkung anlernen</li>
+        <li data-i18n="bmw_i6">DPF/DPF2 Regeneration auslösen</li>
+        <li data-i18n="bmw_i7">Fehlercodes auslesen & löschen (alle SG)</li>
+        <li data-i18n="bmw_i8">Livedaten überwachen (Motor, Getriebe, Bremse)</li>
+        <li data-i18n="bmw_i9">Standheizung programmieren / kodieren</li>
+        <li data-i18n="bmw_i10">VIN / FIN Fahrzeuginfo auslesen</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-banner" style="margin-top:30px;border-left-color:var(--accent2);">
+    <div class="cta-text" data-i18n="bmw_cta">Fragen zur BMW-Kompatibilität? Wir unterstützen alle Serien von 1er bis 7er sowie X-Modelle. VIN senden für genaue Prüfung.</div>
+    <a href="https://wa.me/4915736762046" class="btn" style="border-color:var(--accent2);color:var(--accent2);" target="_blank"><span data-i18n="btn_check">Kompatibilität prüfen</span></a>
+  </div>
 </section>
+
+<!-- =================== PACKAGES =================== -->
 <section id="packages">
-<h2 data-t="nav_packages">Pakete</h2>
-<div class="card package" onclick="toggle(this)"><b>Basis 70€</b><div class="package-details">Diagnose + 2 Codierungen + Service Reset</div></div>
-<div class="card package" onclick="toggle(this)"><b>Komfort 120€</b><div class="package-details">Start Stop + Spiegel + Lichtoptionen</div></div>
-<div class="card package" onclick="toggle(this)"><b>Premium 180€</b><div class="package-details">CarPlay + Video in Motion + Anzeigen</div></div>
+  <div class="section-bg-art">PKG</div>
+  <div class="sec-tag" data-i18n="pkg_tag">Angebote</div>
+  <h2 data-i18n="pkg_title">Coding <span class="accent">Pakete</span></h2>
+  <p style="color:#9db0c5;margin-bottom:30px;max-width:700px;" data-i18n="pkg_intro">Wählen Sie ein Paket und klicken Sie darauf, um den genauen Leistungsumfang zu sehen. Alle Pakete inkl. An- und Abfahrt (zzgl. Fahrtkosten).</p>
+
+  <div class="pkg-grid">
+    <div class="pkg-card" onclick="togglePkg(this)">
+      <div class="pkg-header">
+        <div class="pkg-name" data-i18n="pkg1_name">Basic</div>
+        <div class="pkg-price">40€ <sub data-i18n="pkg_from">ab</sub></div>
+        <div class="pkg-toggle">+</div>
+      </div>
+      <div class="pkg-body">
+        <ul>
+          <li data-i18n="pkg1_f1">1 einzelne Codierung nach Wahl</li>
+          <li data-i18n="pkg1_f2">z.B. Start/Stop Memory oder Spiegelklappen</li>
+          <li data-i18n="pkg1_f3">Durchführung vor Ort (15–20 Min.)</li>
+          <li data-i18n="pkg1_f4">Reversibel jederzeit</li>
+          <li data-i18n="pkg1_f5">Keine Garantieeinschränkungen</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pkg-card" onclick="togglePkg(this)">
+      <div class="pkg-header">
+        <div class="pkg-name" data-i18n="pkg2_name">Comfort</div>
+        <div class="pkg-price">70€ <sub data-i18n="pkg_from">ab</sub></div>
+        <div class="pkg-toggle">+</div>
+      </div>
+      <div class="pkg-body">
+        <ul>
+          <li data-i18n="pkg2_f1">2–3 Codierungen nach Wahl</li>
+          <li data-i18n="pkg2_f2">Start/Stop Memory + Spiegelklappen + Coming Home</li>
+          <li data-i18n="pkg2_f3">Oder andere Kombination nach Absprache</li>
+          <li data-i18n="pkg2_f4">Durchführung vor Ort (20–30 Min.)</li>
+          <li data-i18n="pkg2_f5">Vollständig reversibel</li>
+          <li data-i18n="pkg2_f6">Protokoll aller Änderungen</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pkg-card" onclick="togglePkg(this)">
+      <div class="pkg-header">
+        <div class="pkg-recommend" data-i18n="pkg_popular">Beliebt</div>
+        <div class="pkg-name" data-i18n="pkg3_name">Premium</div>
+        <div class="pkg-price">120€ <sub data-i18n="pkg_from">ab</sub></div>
+        <div class="pkg-toggle">+</div>
+      </div>
+      <div class="pkg-body">
+        <ul>
+          <li data-i18n="pkg3_f1">Volles Codierpaket (alle Komfortfunktionen)</li>
+          <li data-i18n="pkg3_f2">Start/Stop Memory</li>
+          <li data-i18n="pkg3_f3">Automatische Spiegelklappen</li>
+          <li data-i18n="pkg3_f4">Coming Home / Leaving Home</li>
+          <li data-i18n="pkg3_f5">Ambiente-Beleuchtung Anpassung</li>
+          <li data-i18n="pkg3_f6">Begrüßungsblinken deaktivieren</li>
+          <li data-i18n="pkg3_f7">Lane Assist Einstellungen</li>
+          <li data-i18n="pkg3_f8">Dauer: 30–45 Minuten</li>
+          <li data-i18n="pkg3_f9">Vollständig reversibel</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pkg-card" onclick="togglePkg(this)">
+      <div class="pkg-header">
+        <div class="pkg-name" data-i18n="pkg4_name">Full Coding</div>
+        <div class="pkg-price">180€ <sub data-i18n="pkg_from">ab</sub></div>
+        <div class="pkg-toggle">+</div>
+      </div>
+      <div class="pkg-body">
+        <ul>
+          <li data-i18n="pkg4_f1">Vollständige Fahrzeugcodierung</li>
+          <li data-i18n="pkg4_f2">Apple CarPlay / Android Auto Aktivierung</li>
+          <li data-i18n="pkg4_f3">Video in Motion Freischaltung</li>
+          <li data-i18n="pkg4_f4">Ambiente-Beleuchtung komplett</li>
+          <li data-i18n="pkg4_f5">Alle Komfortfunktionen</li>
+          <li data-i18n="pkg4_f6">Alle Lichtfunktionen</li>
+          <li data-i18n="pkg4_f7">Serviceintervall Reset</li>
+          <li data-i18n="pkg4_f8">Kurzdiagnose aller Steuergeräte</li>
+          <li data-i18n="pkg4_f9">Vor-Ort Dauer: 40–60 Minuten</li>
+          <li data-i18n="pkg4_f10">Schriftliches Protokoll aller Änderungen</li>
+          <li data-i18n="pkg4_f11">Vollständig reversibel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="img-card" style="max-width:700px;">
+    <div class="img-placeholder" style="aspect-ratio:21/8;">
+      <div class="img-ph-icon">🌟</div>
+      <div class="img-ph-label" data-i18n="img_ambient">Ambient Lighting Menu</div>
+    </div>
+    <div class="img-label" data-i18n="img_ambient_label">Ambiente Steuerung</div>
+  </div>
 </section>
-<section id="gallery">
-<h2>Galerie</h2>
-<div class="grid">
-<img src="https://images.unsplash.com/photo-1555617117-08cfaec7a9e6">
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
-<img src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7">
-</div>
+
+<!-- =================== PRICING =================== -->
+<section id="pricing">
+  <div class="section-bg-art">€€€</div>
+  <div class="sec-tag" data-i18n="price_tag">Transparente Preise</div>
+  <h2 data-i18n="price_title">Unsere <span class="accent">Preisliste</span></h2>
+  <p style="color:#9db0c5;margin-bottom:34px;max-width:700px;" data-i18n="price_intro">Alle Preise inklusive Mehrwertsteuer. Fahrtkosten werden separat berechnet und abhängig von Entfernung (typisch 10–20 €). Keine versteckten Kosten.</p>
+
+  <div class="pricing-grid">
+
+    <div class="price-cat">
+      <div class="price-cat-head">🔍 <span data-i18n="pcat1">Diagnose</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p1_1">Basis-Scan</span><span class="price-amount">30 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p1_2">Erweiterte Diagnose</span><span class="price-amount">50 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p1_3">Livedaten / DPF / Sensoren</span><span class="price-amount">60 €</span></div>
+      </div>
+    </div>
+
+    <div class="price-cat">
+      <div class="price-cat-head">⚙️ <span data-i18n="pcat2">Codierung</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p2_1">Einzelne Codierung</span><span class="price-amount">40 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p2_2">2–3 Codierungen Paket</span><span class="price-amount">70 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p2_3">Vollpaket Codierung</span><span class="price-amount">120 €</span></div>
+      </div>
+    </div>
+
+    <div class="price-cat">
+      <div class="price-cat-head">🔧 <span data-i18n="pcat3">Service-Funktionen</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p3_1">Serviceintervall-Reset</span><span class="price-amount">20 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p3_2">Elektr. Parkbremse Service</span><span class="price-amount">40–80 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p3_3">Individuelle Adaptionen</span><span class="price-amount">ab 40 €</span></div>
+      </div>
+    </div>
+
+    <div class="price-cat">
+      <div class="price-cat-head">⚡ <span data-i18n="pcat4">Aktivierungen</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p4_1">Start/Stop Memory</span><span class="price-amount">40 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p4_2">Spiegelklappen</span><span class="price-amount">40 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p4_3">Coming/Leaving Home</span><span class="price-amount">40 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p4_4">Ambiente-Beleuchtung</span><span class="price-amount">50 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p4_5">Video in Motion</span><span class="price-amount">60 €</span></div>
+      </div>
+    </div>
+
+    <div class="price-cat">
+      <div class="price-cat-head">📱 <span data-i18n="pcat5">Infotainment</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p5_1">Apple CarPlay Aktivierung</span><span class="price-amount">80 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p5_2">Android Auto Aktivierung</span><span class="price-amount">80 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p5_3">DPF Regeneration</span><span class="price-amount">60 €</span></div>
+      </div>
+    </div>
+
+    <div class="price-cat">
+      <div class="price-cat-head">🚐 <span data-i18n="pcat6">Mobiler Service</span></div>
+      <div class="price-rows">
+        <div class="price-row"><span class="price-name" data-i18n="p6_1">Fahrtkosten Nürnberg</span><span class="price-amount">10–20 €</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p6_2">Anfahrt Umland Bayern</span><span class="price-amount">nach Absprache</span></div>
+        <div class="price-row"><span class="price-name" data-i18n="p6_3">Dauer vor Ort</span><span class="price-amount">15–40 Min.</span></div>
+      </div>
+    </div>
+
+    <div class="pricing-note">
+      <span class="pn-icon">ℹ️</span>
+      <span data-i18n="price_note">Alle aufgeführten Preise sind Richtwerte. Der genaue Preis wird nach Fahrzeugprüfung und Leistungsumfang mitgeteilt. Keine versteckten Kosten — was wir nennen, das berechnen wir. Kostenlose Vorabauskunft per Telefon oder WhatsApp.</span>
+    </div>
+  </div>
 </section>
+
+<!-- =================== FAQ =================== -->
+<section id="faq">
+  <div class="section-bg-art">FAQ</div>
+  <div class="sec-tag" data-i18n="faq_tag">Häufige Fragen</div>
+  <h2 data-i18n="faq_title"><span class="accent">FAQ</span> — Alles was Sie wissen müssen</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:30px;align-items:start;">
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q1">Ist die Codierung sicher für mein Fahrzeug?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a1">Ja, absolut. Wir verwenden ausschließlich original Hersteller-Software (VCDS, ODIS, E-SYS, ISTA). Es werden keine Hardware-Komponenten verändert, kein Chip-Tuning, keine Fremdsoftware. Die Codierungen sind zu 100% reversibel — auf Wunsch stellen wir den Originalzustand kostenlos wieder her.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q2">Verliere ich meine Garantie durch die Codierung?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a2">Nein. Da wir nur Software-Parameter verändern und keine Hardware modifizieren, bleibt Ihre Fahrzeuggarantie vollständig erhalten. Alle Änderungen sind reversibel und hinterlassen keine Spuren. Vor jedem Werkstattbesuch können wir die Codierungen auf Wunsch zurücksetzen.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q3">Wie lange dauert eine Codierung?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a3">Ein typischer Coding-Einsatz dauert zwischen 15 und 40 Minuten vor Ort. Einzelne Codierungen sind oft in 10–15 Minuten erledigt. Ein vollständiges Premium-Paket kann bis zu 60 Minuten in Anspruch nehmen. Sie müssen Ihr Fahrzeug nicht abgeben — wir kommen zu Ihnen.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q4">Welche Fahrzeuge werden unterstützt?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a4">Wir unterstützen alle VAG-Fahrzeuge (VW, Audi, Seat, Škoda, Porsche) sowie BMW und MINI ab Baujahr 2010. Für ältere Modelle fragen Sie bitte direkt an. Senden Sie uns Ihre FIN/VIN — wir prüfen kostenlos alle verfügbaren Codieroptionen für Ihr Fahrzeug.</div>
+      </div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q5">Gibt es Kontrollleuchten nach der Codierung?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a5">Nein. Bei korrekt durchgeführter Codierung erscheinen keine Fehlermeldungen oder Kontrollleuchten. Wir prüfen nach jeder Codierung alle Steuergeräte auf Fehlercodes. Falls ein unerwarteter Fehler auftritt, beheben wir diesen sofort vor Ort.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q6">Kommen Sie zu mir nach Hause?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a6">Ja, genau das ist unser Kernservice. Unser Techniker kommt direkt zu Ihnen — nach Hause, an Ihren Arbeitsplatz oder zu jedem anderen gewünschten Ort in Nürnberg und dem gesamten Bayern. Fahrtkosten werden separat berechnet (typisch 10–20 € im Stadtgebiet).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q7">Kann ich eine individuelle Funktion anfragen?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a7">Ja, selbstverständlich. Wenn Sie eine spezifische Funktion wünschen, die nicht in unserer Standardliste ist, fragen Sie uns. Wir prüfen die Machbarkeit für Ihr Fahrzeugmodell und teilen Ihnen die Möglichkeiten mit. Kundenwünsche sind für uns Priorität.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq_q8">Welche Software verwenden Sie?</span><span class="faq-arrow">▼</span></div>
+        <div class="faq-a" data-i18n="faq_a8">Ausschließlich Original-Herstellersoftware: VCDS (Ross-Tech) für VAG-Fahrzeuge, ODIS (VW Konzern), E-SYS für BMW, ISTA für BMW Diagnose, sowie NCS Expert für ältere BMW. Keine Cracksoftware, keine dubiosen Tools — nur professionelle, lizenzierte Werkzeuge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CONTACT =================== -->
 <section id="contact">
-<h2>Kontakt</h2>
-<p>+49 1573 6762046</p>
-<p>kfz.coding.servis@gmail.com</p>
-<iframe src="https://maps.google.com/maps?q=nurnberg&output=embed" width="100%" height="300" style="border:0;border-radius:12px"></iframe>
+  <div class="section-bg-art">KFZ</div>
+  <div class="sec-tag" data-i18n="con_tag">Jetzt Kontakt aufnehmen</div>
+  <h2 data-i18n="con_title">Kontakt & <span class="accent">Standort</span></h2>
+  <p style="color:#9db0c5;margin-bottom:10px;max-width:700px;" data-i18n="con_intro">Wir sind für Sie erreichbar per Telefon, WhatsApp und E-Mail. Rufen Sie uns an oder schreiben Sie — wir antworten schnell und unkompliziert.</p>
+
+  <div class="contact-layout">
+    <div>
+      <div class="contact-info-card">
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div>
+            <div class="ci-label" data-i18n="ci_phone">Telefon / WhatsApp</div>
+            <div class="ci-value"><a href="tel:+4915736762046">+49 1573 6762046</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <div>
+            <div class="ci-label" data-i18n="ci_email">E-Mail</div>
+            <div class="ci-value"><a href="mailto:kfz.coding.servis@gmail.com">kfz.coding.servis@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div>
+            <div class="ci-label" data-i18n="ci_loc">Standort</div>
+            <div class="ci-value" data-i18n="ci_loc_val">Nürnberg & ganz Bayern<br>Mobiler Service — wir kommen zu Ihnen</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div>
+            <div class="ci-label" data-i18n="ci_hours">Erreichbarkeit</div>
+            <div class="ci-value" data-i18n="ci_hours_val">Mo–Fr: 09:00–19:00 Uhr<br>Sa: 09:00–17:00 Uhr</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-top:20px;">
+        <a href="tel:+4915736762046" class="btn">📞 <span data-i18n="btn_call">Jetzt Anrufen</span></a>
+        <a href="https://wa.me/4915736762046" class="btn btn-wa" target="_blank">💬 WhatsApp</a>
+      </div>
+
+      <div class="cta-banner" style="margin-top:20px;">
+        <div class="cta-text" data-i18n="con_cta">Fahrzeugkompatibilität anfragen — senden Sie uns Ihre FIN/VIN für eine <strong>kostenlose Vorabprüfung</strong>.</div>
+      </div>
+
+      <div style="margin-top:20px;padding:18px;background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.15);">
+        <h4 style="font-family:var(--font-display);font-size:12px;letter-spacing:2px;color:var(--accent3);margin-bottom:10px;text-transform:uppercase;" data-i18n="warranty_title">Garantie & Sicherheit</h4>
+        <p style="font-size:14px;color:#9db0c5;line-height:1.7;" data-i18n="warranty_text">Alle unsere Codierungen sind vollständig reversibel. Wir verwenden ausschließlich Original-Herstellersoftware. Keine Hardware-Eingriffe. Keine Kontrollleuchten. Keine Garantierisiken. Auf Wunsch setzen wir alle Änderungen kostenlos zurück.</p>
+      </div>
+    </div>
+
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d82834.59!2d11.0!3d49.45!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479f5d0b57e35b59%3A0xa37f965e3a3cdde7!2sN%C3%BCrnberg!5e0!3m2!1sde!2sde!4v1700000000000!5m2!1sde!2sde"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
 </section>
+
+<!-- Footer -->
+<footer style="background:#030507;border-top:1px solid var(--border);padding:28px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+  <div style="font-family:var(--font-display);font-size:14px;color:var(--text-dim);">
+    Drive<span style="color:var(--accent);">Coding</span> Bayern — Nürnberg
+  </div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;" data-i18n="footer_hours">
+    Mo–Sa 09:00–19:00 · +49 1573 6762046 · kfz.coding.servis@gmail.com
+  </div>
+  <div style="font-family:var(--font-mono);font-size:10px;color:#445566;" data-i18n="footer_rights">
+    © 2024 DriveCoding Bayern. Alle Rechte vorbehalten.
+  </div>
+</footer>
+
+</main>
+
+<!-- =================== FLOATING BUTTONS =================== -->
+<div id="float-btns">
+  <a href="https://wa.me/4915736762046" class="float-btn float-btn-wa" target="_blank">
+    <span class="float-label" data-i18n="float_wa">WhatsApp schreiben</span>
+    💬
+  </a>
+  <a href="tel:+4915736762046" class="float-btn float-btn-call">
+    <span class="float-label" data-i18n="float_call">Anrufen</span>
+    📞
+  </a>
 </div>
-</div>
-<a class="call" href="tel:+4915736762046" id="callbtn">Jetzt anrufen</a>
-<footer>© 2026 DriveCoding Bayern</footer>
+
+<!-- =================== JS =================== -->
 <script>
-function openSection(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function toggle(el){let d=el.querySelector('.package-details');d.style.display=d.style.display==='block'?'none':'block'}
-const dict={de:{nav_home:'Start',nav_services:'Leistungen',nav_packages:'Pakete',nav_gallery:'Galerie',nav_contact:'Kontakt',home_title:'Professionelle Codierung & Diagnose in Nürnberg',home_desc:'Wir codieren VAG & BMW Fahrzeuge ab Baujahr 2010+. Freischaltungen, Nachrüstungen und Diagnose vor Ort.',why_title:'Warum wir?',why_desc:'Mobile Service im Raum Nürnberg & Bayern. Original Software – keine Schäden, jederzeit rückgängig.',call:'Jetzt anrufen'},en:{nav_home:'Home',nav_services:'Services',nav_packages:'Packages',nav_gallery:'Gallery',nav_contact:'Contact',home_title:'Professional coding & diagnostics in Nuremberg',home_desc:'We code VAG & BMW vehicles from 2010+. Activations and retrofit functions.',why_title:'Why us?',why_desc:'Mobile service in Bavaria. Safe and reversible.',call:'Call now'},sr:{nav_home:'Pocetna',nav_services:'Usluge',nav_packages:'Paketi',nav_gallery:'Galerija',nav_contact:'Kontakt',home_title:'Profesionalno kodiranje u Nirnbergu',home_desc:'Radimo VAG i BMW vozila od 2010+. Aktivacije i dijagnostika.',why_title:'Zasto mi?',why_desc:'Mobilni servis Bavarska.',call:'Pozovi odmah'}};
-function setLang(l){document.querySelectorAll('[data-t]').forEach(e=>e.innerText=dict[l][e.dataset.t]);document.getElementById('callbtn').innerText=dict[l].call}
-setLang('de');
+// =================== TRANSLATIONS ===================
+const i18n = {
+  de: {
+    status: "SYSTEM ONLINE",
+    nav_label: "Navigation",
+    nav_home: "Home",
+    nav_services: "Leistungen",
+    nav_vag: "VAG Coding",
+    nav_bmw: "BMW Coding",
+    nav_packages: "Pakete",
+    nav_pricing: "Preisliste",
+    nav_faq: "FAQ",
+    nav_contact: "Kontakt",
+    home_tag: "Professionelles Fahrzeug-Coding",
+    home_title: "Mobile Fahrzeug-Codierung",
+    home_subtitle: "Professionelle ECU-Codierung für VAG und BMW Fahrzeuge direkt bei Ihnen vor Ort — ohne Werkstattbesuch, ohne Demontage, ohne Risiko.",
+    trust_1: "Original Software",
+    trust_2: "Reversibel",
+    trust_3: "Kein Garantieverlust",
+    trust_4: "Keine Demontage",
+    trust_5: "VAG & BMW ab 2010+",
+    stat_min: "Min. Dauer",
+    stat_safe: "Sicher",
+    stat_area: "Einsatzgebiet",
+    info_loc: "Nürnberg & Bayern",
+    info_car: "VAG & BMW ab 2010+",
+    info_dur: "15–40 Min. pro Fahrzeug",
+    info_soft: "Original Hersteller-Software",
+    info_rev: "Jederzeit rückgängig",
+    info_mob: "Mobiler Service vor Ort",
+    btn_call: "Jetzt Anrufen",
+    cta_vin: "VIN-Prüfung anfordern",
+    cta_vin_sub: "Senden Sie Ihre Fahrzeugidentifikationsnummer — wir prüfen die verfügbaren Codieroptionen für Ihr Modell.",
+    btn_vin: "VIN senden",
+    img_coding: "Laptop kodiert Fahrzeug",
+    img_ecu: "ECU Coding Interface",
+    img_obd: "OBD Verbindung",
+    img_carplay: "CarPlay Aktivierung",
+    img_diag: "Diagnose Software",
+    img_ambient: "Ambient Lighting Menu",
+    img_ambient_label: "Ambiente Steuerung",
+    hours_title: "Öffnungszeiten / Erreichbarkeit",
+    mon: "Montag", tue: "Dienstag", wed: "Mittwoch", thu: "Donnerstag",
+    fri: "Freitag", sat: "Samstag", sun: "Sonntag", closed: "Geschlossen",
+    svc_tag: "Was wir tun",
+    svc_title: "Unsere Leistungen",
+    svc_p1: "Fahrzeug-Codierung ist der Prozess, bei dem werksseitig gesperrte oder versteckte Funktionen in der Steuergeräte-Software (ECU/BCM/Gateway) eines Fahrzeugs gezielt freigeschaltet oder angepasst werden. Diese Funktionen sind physisch im Fahrzeug vorhanden, jedoch aus markt- oder länderspezifischen Gründen deaktiviert — wir schalten sie sicher und sauber frei.",
+    svc_p2: "Durch professionelle Codierung gewinnen Fahrzeugbesitzer Komfortfunktionen, die sonst teuer als Sonderausstattung bestellt werden müssten. Viele dieser Features sind bereits in Ihrem Fahrzeug verbaut — Sie zahlen lediglich für die Freischaltung, nicht für zusätzliche Hardware.",
+    svc_p3: "Warum entscheiden sich immer mehr Fahrzeughalter für eine professionelle Codierung? Weil die Hersteller zahlreiche Komfort- und Sicherheitsfunktionen serienmäßig deaktivieren, obwohl diese technisch implementiert sind. Apple CarPlay, ambientes Licht, automatisches Spiegeln — all das ist oft bereits in Ihrem Steuergerät vorhanden.",
+    svc_p4: "Unsere Codierungen erfolgen ausschließlich mit Original-Herstellersoftware (VCDS, ODIS, ISTA, E-SYS) über offizielle OBD-Schnittstellen. Keine Chip-Modifikationen, keine Fremdsoftware. Jede Codierung ist vollständig reversibel.",
+    svc_p5: "Unser mobiler Service bedeutet: Sie müssen nicht zur Werkstatt. Unser Techniker kommt direkt zu Ihnen — nach Hause, zum Arbeitsplatz oder zu jedem anderen Ort in Nürnberg und dem gesamten Bayern. Dauer: 15 bis 40 Minuten.",
+    svc_cta: "Kontaktieren Sie uns für eine Kompatibilitätsprüfung Ihres Fahrzeugs — kostenlos und unverbindlich.",
+    sh1_t: "🔍 Diagnose & Fehleranalyse",
+    sh1_p: "Vollständige Systemdiagnose aller Steuergeräte, Fehlercodes auslesen, Livedaten überwachen.",
+    sh2_t: "⚙️ ECU / BCM Codierung",
+    sh2_p: "Freischaltung versteckter Funktionen in Motorsteuergerät, Karosseriesteuergerät und Infotainmentsystem.",
+    sh3_t: "📱 Infotainment Aktivierung",
+    sh3_p: "Apple CarPlay, Android Auto, Video in Motion, MirrorLink und weitere Multimedia-Funktionen.",
+    sh4_t: "🎨 Komfort & Licht",
+    sh4_p: "Ambiente-Beleuchtung, Coming-Home, Spiegelklappen, Start/Stop-Deaktivierung und mehr.",
+    sh5_t: "🔧 Service-Funktionen",
+    sh5_p: "Serviceintervall-Reset, elektrische Parkbremse, DPF-Regeneration, Adaptionen zurücksetzen.",
+    vag_tag: "Volkswagen Konzern",
+    vag_title: "VAG Coding Features",
+    vag_intro: "Für alle Fahrzeuge des Volkswagen-Konzerns (VW, Audi, Seat, Škoda, Porsche) ab Baujahr 2010 bieten wir umfangreiche Codieroptionen über VCDS und ODIS.",
+    vag_cat1: "🚗 Komfort & Beleuchtung",
+    vag_f1: "Coming Home / Leaving Home aktivieren",
+    vag_f2: "Spiegel automatisch klappen beim Verriegeln",
+    vag_f3: "Start/Stop System dauerhaft deaktivieren (Memory)",
+    vag_f4: "Ambiente-Beleuchtung Farben & Intensität anpassen",
+    vag_f5: "Türen-Alarm Ton deaktivieren",
+    vag_f6: "Rückfahrkamera automatisch aktivieren",
+    vag_f7: "Tagfahrlicht als Fernlichtassistent",
+    vag_f8: "Lane Assist (Spurhalteassistent) einstellen",
+    vag_f9: "Kurvenlicht / Abbiegelicht aktivieren",
+    vag_f10: "Begrüßungsblinken deaktivieren",
+    vag_f11: "Innenbeleuchtung Helligkeit anpassen",
+    vag_f12: "Gepäckklappe Höhe kalibrieren",
+    vag_cat2: "📱 Infotainment & Connectivity",
+    vag_g1: "Apple CarPlay freischalten (wireless & kabelgebunden)",
+    vag_g2: "Android Auto aktivieren",
+    vag_g3: "Video in Motion freischalten",
+    vag_g4: "MirrorLink Funktion aktivieren",
+    vag_g5: "Bluetooth Codec aptX freischalten",
+    vag_g6: "Displayhelligkeit im Automatikmodus anpassen",
+    vag_g7: "OPS (Einparkhilfe) Ton & Melodie ändern",
+    vag_g8: "Navi-Karte im Kombiinstrument anzeigen",
+    vag_g9: "Sprachsteuerung (Voice) aktivieren",
+    vag_g10: "Online-Dienste aktivieren",
+    vag_g11: "Always-on Display aktivieren",
+    vag_g12: "Radio-Text & RDS-Daten anzeigen",
+    vag_cat3: "🔧 Fahrwerk & Assistenten",
+    vag_h1: "Fahrprofile (Sport/Comfort/Eco) aktivieren",
+    vag_h2: "ESC/ESP Traktionskontrolle deaktivierbar machen",
+    vag_h3: "Bremsassistent kalibrieren",
+    vag_h4: "Frontassistent (Notbremsung) einstellen",
+    vag_h5: "Spurwechselassistent (Side Assist) kalibrieren",
+    vag_h6: "Abstandsregeltempomat ACC aktivieren",
+    vag_h7: "Verkehrszeichenerkennung einstellen",
+    vag_h8: "Totwinkelassistent aktivieren",
+    vag_h9: "Müdigkeitserkennung einstellen",
+    vag_h10: "Reifendrucksystem (TPMS) kalibrieren",
+    vag_cat4: "⚡ Motor & Getriebe",
+    vag_i1: "DPF-Regeneration manuell auslösen",
+    vag_i2: "Serviceintervall zurücksetzen (ÖL, Inspektion)",
+    vag_i3: "Adaptionswerte zurücksetzen nach Motorarbeiten",
+    vag_i4: "Drosselklappe anlernen",
+    vag_i5: "Getriebeöltemperatur anzeigen",
+    vag_i6: "Launch Control aktivieren",
+    vag_i7: "Sound-Aktuator (Virtual Engine Sound) anpassen",
+    vag_i8: "Abgasklappe Verhalten ändern",
+    vag_i9: "Kraftstoffverbrauchsanzeige kalibrieren",
+    vag_i10: "Batterie nach Tausch kodieren & anlernen",
+    vag_cta: "Nicht sicher, ob Ihr VAG-Modell unterstützt wird? Senden Sie uns Ihre FIN/VIN — wir prüfen kostenlos alle verfügbaren Optionen.",
+    btn_check: "Kompatibilität prüfen",
+    bmw_tag: "BMW Gruppe",
+    bmw_title: "BMW Coding Features",
+    bmw_intro: "Für alle BMW und MINI Fahrzeuge ab Baujahr 2010 bieten wir professionelle Codierung über E-SYS, ISTA und NCS Expert.",
+    bmw_cat1: "🚗 Komfort & Beleuchtung",
+    bmw_f1: "Coming Home / Leaving Home Licht aktivieren",
+    bmw_f2: "Spiegel automatisch einfalten beim Schließen",
+    bmw_f3: "Start/Stop Deaktivierung dauerhaft merken",
+    bmw_f4: "Ambientes Licht Farben & Zonen anpassen",
+    bmw_f5: "Daytime Running Light (DRL) Helligkeit",
+    bmw_f6: "Kurvenlicht Adaptive Lights aktivieren",
+    bmw_f7: "Welcome Light / Interior Begrüßungslicht",
+    bmw_f8: "Hupe deaktivieren beim Verriegeln",
+    bmw_f9: "Automatisches Schließen nach Geschwindigkeit",
+    bmw_f10: "Scheibenwischer-Regensensor kalibrieren",
+    bmw_f11: "Warnblinkanlage bei Notbremsung",
+    bmw_f12: "Abblendlicht als Tagfahrlicht konfigurieren",
+    bmw_cat2: "📱 iDrive & Infotainment",
+    bmw_g1: "Apple CarPlay freischalten (Wireless & kabelgebunden)",
+    bmw_g2: "Android Auto aktivieren",
+    bmw_g3: "Video in Motion freischalten",
+    bmw_g4: "MirrorLink Aktivierung",
+    bmw_g5: "Netflix/YouTube im Stand freischalten",
+    bmw_g6: "Navi-Karte im digitalen Kombiinstrument",
+    bmw_g7: "HUD (Head-Up Display) Konfiguration",
+    bmw_g8: "iDrive Hintergrundfarbe anpassen",
+    bmw_g9: "DAB+ Radio aktivieren",
+    bmw_g10: "PDC (Parksensoren) Ton anpassen",
+    bmw_g11: "Kamera 360° aktivieren",
+    bmw_g12: "Sprachsteuerung optimieren",
+    bmw_cat3: "🏎️ M-Sport & Performance",
+    bmw_h1: "M-Individuell Lenkradmodi anpassen",
+    bmw_h2: "M Drive Speicher konfigurieren",
+    bmw_h3: "Launch Control aktivieren",
+    bmw_h4: "Sport+ Modus in Fahrselectschalter",
+    bmw_h5: "Abgasklappe Verhalten im Sport Modus",
+    bmw_h6: "Sound-Booster (Motorsound) anpassen",
+    bmw_h7: "xDrive Torque Verteilung anpassen",
+    bmw_h8: "M-Button Belegung individuell",
+    bmw_h9: "Sportanzeige: Lenkwinkel, G-Kraft, Motoröl",
+    bmw_h10: "DSC OFF dauerhaft verfügbar machen",
+    bmw_cat4: "⚡ Service & Diagnose",
+    bmw_i1: "Serviceintervall (CBS) zurücksetzen",
+    bmw_i2: "Neue Batterie kodieren & anlernen",
+    bmw_i3: "Parkbremse für Bremsbelagwechsel öffnen",
+    bmw_i4: "Steuergeräte-Anlernung nach Tausch",
+    bmw_i5: "Drosselklappe / Lenkung anlernen",
+    bmw_i6: "DPF/DPF2 Regeneration auslösen",
+    bmw_i7: "Fehlercodes auslesen & löschen (alle SG)",
+    bmw_i8: "Livedaten überwachen (Motor, Getriebe, Bremse)",
+    bmw_i9: "Standheizung programmieren / kodieren",
+    bmw_i10: "VIN / FIN Fahrzeuginfo auslesen",
+    bmw_cta: "Fragen zur BMW-Kompatibilität? Wir unterstützen alle Serien von 1er bis 7er sowie X-Modelle.",
+    pkg_tag: "Angebote",
+    pkg_title: "Coding Pakete",
+    pkg_intro: "Wählen Sie ein Paket und klicken Sie darauf, um den genauen Leistungsumfang zu sehen.",
+    pkg_from: "ab",
+    pkg1_name: "Basic",
+    pkg1_f1: "1 einzelne Codierung nach Wahl",
+    pkg1_f2: "z.B. Start/Stop Memory oder Spiegelklappen",
+    pkg1_f3: "Durchführung vor Ort (15–20 Min.)",
+    pkg1_f4: "Reversibel jederzeit",
+    pkg1_f5: "Keine Garantieeinschränkungen",
+    pkg_popular: "Beliebt",
+    pkg2_name: "Comfort",
+    pkg2_f1: "2–3 Codierungen nach Wahl",
+    pkg2_f2: "Start/Stop Memory + Spiegelklappen + Coming Home",
+    pkg2_f3: "Oder andere Kombination nach Absprache",
+    pkg2_f4: "Durchführung vor Ort (20–30 Min.)",
+    pkg2_f5: "Vollständig reversibel",
+    pkg2_f6: "Protokoll aller Änderungen",
+    pkg3_name: "Premium",
+    pkg3_f1: "Volles Codierpaket (alle Komfortfunktionen)",
+    pkg3_f2: "Start/Stop Memory",
+    pkg3_f3: "Automatische Spiegelklappen",
+    pkg3_f4: "Coming Home / Leaving Home",
+    pkg3_f5: "Ambiente-Beleuchtung Anpassung",
+    pkg3_f6: "Begrüßungsblinken deaktivieren",
+    pkg3_f7: "Lane Assist Einstellungen",
+    pkg3_f8: "Dauer: 30–45 Minuten",
+    pkg3_f9: "Vollständig reversibel",
+    pkg4_name: "Full Coding",
+    pkg4_f1: "Vollständige Fahrzeugcodierung",
+    pkg4_f2: "Apple CarPlay / Android Auto Aktivierung",
+    pkg4_f3: "Video in Motion Freischaltung",
+    pkg4_f4: "Ambiente-Beleuchtung komplett",
+    pkg4_f5: "Alle Komfortfunktionen",
+    pkg4_f6: "Alle Lichtfunktionen",
+    pkg4_f7: "Serviceintervall Reset",
+    pkg4_f8: "Kurzdiagnose aller Steuergeräte",
+    pkg4_f9: "Vor-Ort Dauer: 40–60 Minuten",
+    pkg4_f10: "Schriftliches Protokoll aller Änderungen",
+    pkg4_f11: "Vollständig reversibel",
+    price_tag: "Transparente Preise",
+    price_title: "Unsere Preisliste",
+    price_intro: "Alle Preise inklusive Mehrwertsteuer. Fahrtkosten separat (typisch 10–20 €). Keine versteckten Kosten.",
+    pcat1: "Diagnose",
+    pcat2: "Codierung",
+    pcat3: "Service-Funktionen",
+    pcat4: "Aktivierungen",
+    pcat5: "Infotainment",
+    pcat6: "Mobiler Service",
+    p1_1: "Basis-Scan", p1_2: "Erweiterte Diagnose", p1_3: "Livedaten / DPF / Sensoren",
+    p2_1: "Einzelne Codierung", p2_2: "2–3 Codierungen Paket", p2_3: "Vollpaket Codierung",
+    p3_1: "Serviceintervall-Reset", p3_2: "Elektr. Parkbremse Service", p3_3: "Individuelle Adaptionen",
+    p4_1: "Start/Stop Memory", p4_2: "Spiegelklappen", p4_3: "Coming/Leaving Home", p4_4: "Ambiente-Beleuchtung", p4_5: "Video in Motion",
+    p5_1: "Apple CarPlay Aktivierung", p5_2: "Android Auto Aktivierung", p5_3: "DPF Regeneration",
+    p6_1: "Fahrtkosten Nürnberg", p6_2: "Anfahrt Umland Bayern", p6_3: "Dauer vor Ort",
+    price_note: "Alle aufgeführten Preise sind Richtwerte. Der genaue Preis wird nach Fahrzeugprüfung mitgeteilt. Kostenlose Vorabauskunft per Telefon oder WhatsApp.",
+    faq_tag: "Häufige Fragen",
+    faq_title: "FAQ — Alles was Sie wissen müssen",
+    faq_q1: "Ist die Codierung sicher für mein Fahrzeug?",
+    faq_a1: "Ja, absolut. Wir verwenden ausschließlich original Hersteller-Software (VCDS, ODIS, E-SYS, ISTA). Keine Hardware-Komponenten werden verändert, kein Chip-Tuning, keine Fremdsoftware. Die Codierungen sind zu 100% reversibel.",
+    faq_q2: "Verliere ich meine Garantie durch die Codierung?",
+    faq_a2: "Nein. Da wir nur Software-Parameter verändern und keine Hardware modifizieren, bleibt Ihre Fahrzeuggarantie vollständig erhalten. Alle Änderungen sind reversibel und hinterlassen keine Spuren.",
+    faq_q3: "Wie lange dauert eine Codierung?",
+    faq_a3: "Ein typischer Coding-Einsatz dauert zwischen 15 und 40 Minuten vor Ort. Einzelne Codierungen sind oft in 10–15 Minuten erledigt. Ein vollständiges Premium-Paket kann bis zu 60 Minuten in Anspruch nehmen.",
+    faq_q4: "Welche Fahrzeuge werden unterstützt?",
+    faq_a4: "Wir unterstützen alle VAG-Fahrzeuge (VW, Audi, Seat, Škoda, Porsche) sowie BMW und MINI ab Baujahr 2010. Senden Sie uns Ihre FIN/VIN — wir prüfen kostenlos alle verfügbaren Codieroptionen.",
+    faq_q5: "Gibt es Kontrollleuchten nach der Codierung?",
+    faq_a5: "Nein. Bei korrekt durchgeführter Codierung erscheinen keine Fehlermeldungen oder Kontrollleuchten. Wir prüfen nach jeder Codierung alle Steuergeräte auf Fehlercodes.",
+    faq_q6: "Kommen Sie zu mir nach Hause?",
+    faq_a6: "Ja, genau das ist unser Kernservice. Unser Techniker kommt direkt zu Ihnen — nach Hause, an Ihren Arbeitsplatz oder zu jedem anderen Ort in Nürnberg und ganz Bayern.",
+    faq_q7: "Kann ich eine individuelle Funktion anfragen?",
+    faq_a7: "Ja, selbstverständlich. Wenn Sie eine spezifische Funktion wünschen, fragen Sie uns. Wir prüfen die Machbarkeit für Ihr Fahrzeugmodell und teilen Ihnen die Möglichkeiten mit.",
+    faq_q8: "Welche Software verwenden Sie?",
+    faq_a8: "Ausschließlich Original-Herstellersoftware: VCDS (Ross-Tech) für VAG, ODIS (VW Konzern), E-SYS und ISTA für BMW sowie NCS Expert für ältere BMW-Modelle. Keine Cracksoftware.",
+    con_tag: "Jetzt Kontakt aufnehmen",
+    con_title: "Kontakt & Standort",
+    con_intro: "Wir sind für Sie erreichbar per Telefon, WhatsApp und E-Mail. Rufen Sie uns an oder schreiben Sie — wir antworten schnell und unkompliziert.",
+    ci_phone: "Telefon / WhatsApp",
+    ci_email: "E-Mail",
+    ci_loc: "Standort",
+    ci_loc_val: "Nürnberg & ganz Bayern\nMobiler Service — wir kommen zu Ihnen",
+    ci_hours: "Erreichbarkeit",
+    ci_hours_val: "Mo–Fr: 09:00–19:00 Uhr\nSa: 09:00–17:00 Uhr",
+    con_cta: "Fahrzeugkompatibilität anfragen — senden Sie uns Ihre FIN/VIN für eine kostenlose Vorabprüfung.",
+    warranty_title: "Garantie & Sicherheit",
+    warranty_text: "Alle unsere Codierungen sind vollständig reversibel. Wir verwenden ausschließlich Original-Herstellersoftware. Keine Hardware-Eingriffe. Keine Kontrollleuchten. Keine Garantierisiken.",
+    float_wa: "WhatsApp schreiben",
+    float_call: "Anrufen",
+    footer_hours: "Mo–Sa 09:00–19:00 · +49 1573 6762046 · kfz.coding.servis@gmail.com",
+    footer_rights: "© 2024 DriveCoding Bayern. Alle Rechte vorbehalten."
+  },
+  en: {
+    status: "SYSTEM ONLINE",
+    nav_label: "Navigation",
+    nav_home: "Home",
+    nav_services: "Services",
+    nav_vag: "VAG Coding",
+    nav_bmw: "BMW Coding",
+    nav_packages: "Packages",
+    nav_pricing: "Pricing",
+    nav_faq: "FAQ",
+    nav_contact: "Contact",
+    home_tag: "Professional Vehicle Coding",
+    home_title: "Mobile Vehicle Coding",
+    home_subtitle: "Professional ECU coding for VAG and BMW vehicles at your location — no workshop visit, no disassembly, no risk.",
+    trust_1: "Original Software",
+    trust_2: "Reversible",
+    trust_3: "No Warranty Risk",
+    trust_4: "No Disassembly",
+    trust_5: "VAG & BMW 2010+",
+    stat_min: "Min. Duration",
+    stat_safe: "Safe",
+    stat_area: "Service Area",
+    info_loc: "Nuremberg & Bavaria",
+    info_car: "VAG & BMW from 2010+",
+    info_dur: "15–40 min per vehicle",
+    info_soft: "Original Manufacturer Software",
+    info_rev: "Reversible at any time",
+    info_mob: "Mobile on-site service",
+    btn_call: "Call Now",
+    cta_vin: "Request VIN Check",
+    cta_vin_sub: "Send your vehicle identification number — we'll check all available coding options for your model.",
+    btn_vin: "Send VIN",
+    img_coding: "Laptop coding a vehicle",
+    img_ecu: "ECU Coding Interface",
+    img_obd: "OBD Connection",
+    img_carplay: "CarPlay Activation",
+    img_diag: "Diagnostic Software",
+    img_ambient: "Ambient Lighting Menu",
+    img_ambient_label: "Ambient Control",
+    hours_title: "Opening Hours / Availability",
+    mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday",
+    fri: "Friday", sat: "Saturday", sun: "Sunday", closed: "Closed",
+    svc_tag: "What We Do",
+    svc_title: "Our Services",
+    svc_p1: "Vehicle coding is the process of unlocking or adjusting factory-disabled hidden functions in a vehicle's control unit software (ECU/BCM/Gateway). These functions are physically present in the vehicle but deactivated for market or country-specific reasons — we unlock them safely and cleanly.",
+    svc_p2: "Through professional coding, vehicle owners gain comfort features that would otherwise need to be ordered as expensive optional extras. Many of these features are already built into your vehicle — you only pay for the activation, not for additional hardware.",
+    svc_p3: "Why do more and more vehicle owners opt for professional coding? Because manufacturers deactivate numerous comfort and safety functions as standard, even though they are technically implemented. Apple CarPlay, ambient lighting, automatic folding mirrors — all of this is often already in your control unit.",
+    svc_p4: "Our codings are performed exclusively with original manufacturer software (VCDS, ODIS, ISTA, E-SYS) via official OBD interfaces. No chip modifications, no third-party firmware. Every coding is fully reversible.",
+    svc_p5: "Our mobile service means: you don't need to visit a workshop. Our technician comes directly to you — at home, at your workplace, or anywhere in Nuremberg and Bavaria. Duration: 15 to 40 minutes.",
+    svc_cta: "Contact us for a compatibility check of your vehicle — free and non-binding.",
+    sh1_t: "🔍 Diagnostics & Fault Analysis",
+    sh1_p: "Complete system diagnosis of all control units, reading fault codes, monitoring live data.",
+    sh2_t: "⚙️ ECU / BCM Coding",
+    sh2_p: "Unlocking hidden functions in engine control unit, body control module and infotainment system.",
+    sh3_t: "📱 Infotainment Activation",
+    sh3_p: "Apple CarPlay, Android Auto, Video in Motion, MirrorLink and other multimedia functions.",
+    sh4_t: "🎨 Comfort & Lighting",
+    sh4_p: "Ambient lighting, Coming-Home, mirror folding, Start/Stop deactivation and more.",
+    sh5_t: "🔧 Service Functions",
+    sh5_p: "Service interval reset, electric parking brake, DPF regeneration, adaptation reset.",
+    vag_tag: "Volkswagen Group",
+    vag_title: "VAG Coding Features",
+    vag_intro: "For all Volkswagen Group vehicles (VW, Audi, Seat, Škoda, Porsche) from 2010 we offer extensive coding options via VCDS and ODIS.",
+    vag_cat1: "🚗 Comfort & Lighting",
+    vag_f1: "Coming Home / Leaving Home activation",
+    vag_f2: "Automatic mirror folding on lock",
+    vag_f3: "Start/Stop permanent deactivation (Memory)",
+    vag_f4: "Ambient lighting colors & intensity adjustment",
+    vag_f5: "Door alarm sound deactivation",
+    vag_f6: "Rear camera automatic activation",
+    vag_f7: "DRL as main beam assistant",
+    vag_f8: "Lane Assist (lane keeping) settings",
+    vag_f9: "Corner light / turning light activation",
+    vag_f10: "Welcome blink deactivation",
+    vag_f11: "Interior light brightness adjustment",
+    vag_f12: "Tailgate height calibration",
+    vag_cat2: "📱 Infotainment & Connectivity",
+    vag_g1: "Apple CarPlay unlock (wireless & wired)",
+    vag_g2: "Android Auto activation",
+    vag_g3: "Video in Motion unlock",
+    vag_g4: "MirrorLink function activation",
+    vag_g5: "Bluetooth aptX codec unlock",
+    vag_g6: "Display brightness in auto mode",
+    vag_g7: "OPS parking sensor tone & melody change",
+    vag_g8: "Navigation map in instrument cluster",
+    vag_g9: "Voice control activation",
+    vag_g10: "Online services activation",
+    vag_g11: "Always-on display activation",
+    vag_g12: "Radio text & RDS data display",
+    vag_cat3: "🔧 Chassis & Assistants",
+    vag_h1: "Driving profiles (Sport/Comfort/Eco) activation",
+    vag_h2: "ESC/ESP traction control defeatable",
+    vag_h3: "Brake assistant calibration",
+    vag_h4: "Front assist (emergency braking) settings",
+    vag_h5: "Lane change assistant (Side Assist) calibration",
+    vag_h6: "Adaptive cruise control ACC activation",
+    vag_h7: "Traffic sign recognition settings",
+    vag_h8: "Blind spot monitor activation",
+    vag_h9: "Driver fatigue detection settings",
+    vag_h10: "Tire pressure system (TPMS) calibration",
+    vag_cat4: "⚡ Engine & Transmission",
+    vag_i1: "DPF regeneration manual trigger",
+    vag_i2: "Service interval reset (oil, inspection)",
+    vag_i3: "Adaptation values reset after engine work",
+    vag_i4: "Throttle body adaptation",
+    vag_i5: "Gearbox oil temperature display",
+    vag_i6: "Launch Control activation",
+    vag_i7: "Sound actuator (Virtual Engine Sound) adjustment",
+    vag_i8: "Exhaust flap behavior change",
+    vag_i9: "Fuel consumption display calibration",
+    vag_i10: "Battery coding & adaptation after replacement",
+    vag_cta: "Not sure if your VAG model is supported? Send us your VIN — we check all available options for free.",
+    btn_check: "Check Compatibility",
+    bmw_tag: "BMW Group",
+    bmw_title: "BMW Coding Features",
+    bmw_intro: "For all BMW and MINI vehicles from 2010 we offer professional coding via E-SYS, ISTA and NCS Expert.",
+    bmw_cat1: "🚗 Comfort & Lighting",
+    bmw_f1: "Coming Home / Leaving Home light activation",
+    bmw_f2: "Automatic mirror folding on lock",
+    bmw_f3: "Start/Stop deactivation memory",
+    bmw_f4: "Ambient light colors & zones adjustment",
+    bmw_f5: "Daytime Running Light (DRL) brightness",
+    bmw_f6: "Adaptive corner lights activation",
+    bmw_f7: "Welcome light / interior greeting light",
+    bmw_f8: "Horn deactivation on locking",
+    bmw_f9: "Automatic locking by speed",
+    bmw_f10: "Windshield wiper rain sensor calibration",
+    bmw_f11: "Hazard lights on emergency braking",
+    bmw_f12: "Low beam as DRL configuration",
+    bmw_cat2: "📱 iDrive & Infotainment",
+    bmw_g1: "Apple CarPlay unlock (Wireless & wired)",
+    bmw_g2: "Android Auto activation",
+    bmw_g3: "Video in Motion unlock",
+    bmw_g4: "MirrorLink activation",
+    bmw_g5: "Netflix/YouTube while parked unlock",
+    bmw_g6: "Navigation map in digital instrument cluster",
+    bmw_g7: "HUD (Head-Up Display) configuration",
+    bmw_g8: "iDrive background color adjustment",
+    bmw_g9: "DAB+ radio activation",
+    bmw_g10: "PDC parking sensor tone adjustment",
+    bmw_g11: "360° camera activation",
+    bmw_g12: "Voice control optimization",
+    bmw_cat3: "🏎️ M-Sport & Performance",
+    bmw_h1: "M-Individual steering modes adjustment",
+    bmw_h2: "M Drive memory configuration",
+    bmw_h3: "Launch Control activation",
+    bmw_h4: "Sport+ mode in drive selector",
+    bmw_h5: "Exhaust flap behavior in Sport mode",
+    bmw_h6: "Sound booster (engine sound) adjustment",
+    bmw_h7: "xDrive torque distribution adjustment",
+    bmw_h8: "M-button individual assignment",
+    bmw_h9: "Sport display: steering angle, G-force, oil temp",
+    bmw_h10: "DSC OFF permanently available",
+    bmw_cat4: "⚡ Service & Diagnostics",
+    bmw_i1: "Service interval (CBS) reset",
+    bmw_i2: "New battery coding & adaptation",
+    bmw_i3: "Parking brake open for brake pad change",
+    bmw_i4: "Control unit adaptation after replacement",
+    bmw_i5: "Throttle / steering adaptation",
+    bmw_i6: "DPF/DPF2 regeneration trigger",
+    bmw_i7: "Fault codes read & clear (all CU)",
+    bmw_i8: "Live data monitoring (engine, gearbox, brakes)",
+    bmw_i9: "Auxiliary heater programming / coding",
+    bmw_i10: "VIN / FIN vehicle info readout",
+    bmw_cta: "Questions about BMW compatibility? We support all series from 1 Series to 7 Series and X models.",
+    pkg_tag: "Offers",
+    pkg_title: "Coding Packages",
+    pkg_intro: "Choose a package and click to see the exact scope. All packages incl. travel (+ travel costs).",
+    pkg_from: "from",
+    pkg1_name: "Basic",
+    pkg1_f1: "1 single coding of your choice",
+    pkg1_f2: "e.g. Start/Stop Memory or mirror folding",
+    pkg1_f3: "On-site execution (15–20 min.)",
+    pkg1_f4: "Reversible at any time",
+    pkg1_f5: "No warranty restrictions",
+    pkg_popular: "Popular",
+    pkg2_name: "Comfort",
+    pkg2_f1: "2–3 codings of your choice",
+    pkg2_f2: "Start/Stop Memory + Mirror folding + Coming Home",
+    pkg2_f3: "Or another combination by arrangement",
+    pkg2_f4: "On-site execution (20–30 min.)",
+    pkg2_f5: "Fully reversible",
+    pkg2_f6: "Log of all changes",
+    pkg3_name: "Premium",
+    pkg3_f1: "Full coding package (all comfort functions)",
+    pkg3_f2: "Start/Stop Memory",
+    pkg3_f3: "Automatic mirror folding",
+    pkg3_f4: "Coming Home / Leaving Home",
+    pkg3_f5: "Ambient lighting adjustment",
+    pkg3_f6: "Welcome blink deactivation",
+    pkg3_f7: "Lane Assist settings",
+    pkg3_f8: "Duration: 30–45 minutes",
+    pkg3_f9: "Fully reversible",
+    pkg4_name: "Full Coding",
+    pkg4_f1: "Complete vehicle coding",
+    pkg4_f2: "Apple CarPlay / Android Auto activation",
+    pkg4_f3: "Video in Motion unlock",
+    pkg4_f4: "Full ambient lighting",
+    pkg4_f5: "All comfort functions",
+    pkg4_f6: "All lighting functions",
+    pkg4_f7: "Service interval reset",
+    pkg4_f8: "Quick diagnosis of all control units",
+    pkg4_f9: "On-site duration: 40–60 minutes",
+    pkg4_f10: "Written log of all changes",
+    pkg4_f11: "Fully reversible",
+    price_tag: "Transparent Pricing",
+    price_title: "Our Price List",
+    price_intro: "All prices include VAT. Travel costs are billed separately (typically 10–20 €). No hidden fees.",
+    pcat1: "Diagnostics",
+    pcat2: "Coding",
+    pcat3: "Service Functions",
+    pcat4: "Activations",
+    pcat5: "Infotainment",
+    pcat6: "Mobile Service",
+    p1_1: "Basic Scan", p1_2: "Extended Diagnosis", p1_3: "Live Data / DPF / Sensors",
+    p2_1: "Single Coding", p2_2: "2–3 Codings Package", p2_3: "Full Package Coding",
+    p3_1: "Service Interval Reset", p3_2: "Electric Parking Brake Service", p3_3: "Custom Adaptations",
+    p4_1: "Start/Stop Memory", p4_2: "Mirror Folding", p4_3: "Coming/Leaving Home", p4_4: "Ambient Lighting", p4_5: "Video in Motion",
+    p5_1: "Apple CarPlay Activation", p5_2: "Android Auto Activation", p5_3: "DPF Regeneration",
+    p6_1: "Travel cost Nuremberg", p6_2: "Travel cost Bavaria surroundings", p6_3: "On-site duration",
+    price_note: "All listed prices are reference values. The exact price is communicated after vehicle check. No hidden costs — free preliminary quote by phone or WhatsApp.",
+    faq_tag: "Frequently Asked Questions",
+    faq_title: "FAQ — Everything You Need to Know",
+    faq_q1: "Is coding safe for my vehicle?",
+    faq_a1: "Yes, absolutely. We use exclusively original manufacturer software (VCDS, ODIS, E-SYS, ISTA). No hardware components are modified, no chip tuning, no third-party software. Codings are 100% reversible.",
+    faq_q2: "Will I lose my warranty through coding?",
+    faq_a2: "No. Since we only change software parameters without modifying hardware, your vehicle warranty remains fully intact. All changes are reversible and leave no trace.",
+    faq_q3: "How long does a coding take?",
+    faq_a3: "A typical coding session takes between 15 and 40 minutes on-site. Individual codings are often done in 10–15 minutes. A full premium package may take up to 60 minutes.",
+    faq_q4: "Which vehicles are supported?",
+    faq_a4: "We support all VAG vehicles (VW, Audi, Seat, Škoda, Porsche) and BMW / MINI from 2010. Send us your VIN — we'll check all available coding options for free.",
+    faq_q5: "Are there warning lights after coding?",
+    faq_a5: "No. With correctly performed coding, no fault messages or warning lights appear. We check all control units for fault codes after every coding session.",
+    faq_q6: "Do you come to my home?",
+    faq_a6: "Yes, that's exactly our core service. Our technician comes directly to you — at home, at your workplace, or anywhere in Nuremberg and all of Bavaria.",
+    faq_q7: "Can I request a custom function?",
+    faq_a7: "Yes, of course. If you want a specific function, ask us. We'll check the feasibility for your vehicle model and inform you of the possibilities.",
+    faq_q8: "What software do you use?",
+    faq_a8: "Exclusively original manufacturer software: VCDS (Ross-Tech) for VAG, ODIS (VW Group), E-SYS and ISTA for BMW, plus NCS Expert for older BMW models. No cracked software.",
+    con_tag: "Get In Touch",
+    con_title: "Contact & Location",
+    con_intro: "We're reachable by phone, WhatsApp and email. Call us or write — we respond quickly and straightforwardly.",
+    ci_phone: "Phone / WhatsApp",
+    ci_email: "Email",
+    ci_loc: "Location",
+    ci_loc_val: "Nuremberg & all of Bavaria\nMobile service — we come to you",
+    ci_hours: "Availability",
+    ci_hours_val: "Mon–Fri: 09:00–19:00\nSat: 09:00–17:00",
+    con_cta: "Request vehicle compatibility — send us your VIN/FIN for a free preliminary check.",
+    warranty_title: "Warranty & Safety",
+    warranty_text: "All our codings are fully reversible. We use exclusively original manufacturer software. No hardware modifications. No warning lights. No warranty risks.",
+    float_wa: "Write on WhatsApp",
+    float_call: "Call Now",
+    footer_hours: "Mon–Sat 09:00–19:00 · +49 1573 6762046 · kfz.coding.servis@gmail.com",
+    footer_rights: "© 2024 DriveCoding Bayern. All rights reserved."
+  },
+  sr: {
+    status: "SISTEM AKTIVAN",
+    nav_label: "Navigacija",
+    nav_home: "Početna",
+    nav_services: "Usluge",
+    nav_vag: "VAG Kodiranje",
+    nav_bmw: "BMW Kodiranje",
+    nav_packages: "Paketi",
+    nav_pricing: "Cenovnik",
+    nav_faq: "Pitanja",
+    nav_contact: "Kontakt",
+    home_tag: "Profesionalno Kodiranje Vozila",
+    home_title: "Mobilno Kodiranje Vozila",
+    home_subtitle: "Profesionalno ECU kodiranje VAG i BMW vozila direktno kod vas — bez odlaska u servis, bez demontaže, bez rizika.",
+    trust_1: "Originalni Softver",
+    trust_2: "Reverzibilno",
+    trust_3: "Bez Rizika za Garanciju",
+    trust_4: "Bez Demontaže",
+    trust_5: "VAG & BMW 2010+",
+    stat_min: "Min. Trajanje",
+    stat_safe: "Bezbedno",
+    stat_area: "Oblast Usluge",
+    info_loc: "Nirenberg i Bavarska",
+    info_car: "VAG & BMW od 2010+",
+    info_dur: "15–40 min po vozilu",
+    info_soft: "Originalni softver proizvođača",
+    info_rev: "Uvek reverzibilno",
+    info_mob: "Mobilna usluga na licu mesta",
+    btn_call: "Pozovite Sada",
+    cta_vin: "Zatražite VIN proveru",
+    cta_vin_sub: "Pošaljite vaš broj šasije — proverićemo dostupne opcije kodiranja za vaš model.",
+    btn_vin: "Pošalji VIN",
+    img_coding: "Laptop kodira vozilo",
+    img_ecu: "ECU Coding Interface",
+    img_obd: "OBD Veza",
+    img_carplay: "CarPlay Aktivacija",
+    img_diag: "Dijagnostički Softver",
+    img_ambient: "Ambijentalno Osvetljenje",
+    img_ambient_label: "Ambient Kontrola",
+    hours_title: "Radno Vreme / Dostupnost",
+    mon: "Ponedeljak", tue: "Utorak", wed: "Sreda", thu: "Četvrtak",
+    fri: "Petak", sat: "Subota", sun: "Nedelja", closed: "Zatvoreno",
+    svc_tag: "Šta Radimo",
+    svc_title: "Naše Usluge",
+    svc_p1: "Kodiranje vozila je proces kojim se fabrički zaključane ili skrivene funkcije u softveru upravljačke jedinice (ECU/BCM/Gateway) aktiviraju ili prilagođavaju. Ove funkcije su fizički prisutne u vozilu, ali su deaktivirane iz tržišnih razloga — mi ih bezbedno otključavamo.",
+    svc_p2: "Profesionalnim kodiranjem vlasnici vozila dobijaju udobnosne funkcije koje bi inače morali skupo naručiti kao dodatnu opremu. Mnoge od tih funkcija su već ugrađene u vaše vozilo — plaćate samo aktivaciju, ne i dodatni hardver.",
+    svc_p3: "Zašto se sve više vlasnika odlučuje za profesionalno kodiranje? Jer proizvođači deaktiviraju brojne funkcije udobnosti i bezbednosti, iako su tehnički implementirane. Apple CarPlay, ambijentalno svetlo, automatsko sklapanje retrovizora — sve to je često već u vašoj upravljačkoj jedinici.",
+    svc_p4: "Naša kodiranja se vrše isključivo sa originalnim softverom proizvođača (VCDS, ODIS, ISTA, E-SYS) putem zvaničnih OBD interfejsa. Bez modifikacija hardvera, bez stranog softvera. Svako kodiranje je potpuno reverzibilno.",
+    svc_p5: "Naša mobilna usluga znači: ne morate ići u servis. Naš tehničar dolazi direktno kod vas — kući, na posao ili na bilo koje mesto u Nirenbergu i celoj Bavarskoj. Trajanje: 15 do 40 minuta.",
+    svc_cta: "Kontaktirajte nas za proveru kompatibilnosti vašeg vozila — besplatno i bez obaveza.",
+    sh1_t: "🔍 Dijagnostika i Analiza Grešaka",
+    sh1_p: "Kompletna sistemska dijagnostika svih upravljačkih jedinica, čitanje kodova grešaka, praćenje živih podataka.",
+    sh2_t: "⚙️ ECU / BCM Kodiranje",
+    sh2_p: "Otključavanje skrivenih funkcija u upravljačkoj jedinici motora, karoseriji i info-zabavnom sistemu.",
+    sh3_t: "📱 Aktivacija Infotainmenta",
+    sh3_p: "Apple CarPlay, Android Auto, Video u Pokretu, MirrorLink i druge multimedijalne funkcije.",
+    sh4_t: "🎨 Udobnost i Osvetljenje",
+    sh4_p: "Ambijentalno svetlo, Coming-Home, sklapanje retrovizora, deaktivacija Start/Stop i još mnogo toga.",
+    sh5_t: "🔧 Servisne Funkcije",
+    sh5_p: "Reset servisnog intervala, električna ručna kočnica, DPF regeneracija, resetovanje adaptacija.",
+    vag_tag: "Volkswagen Konzern",
+    vag_title: "VAG Funkcije Kodiranja",
+    vag_intro: "Za sva vozila Volkswagen koncerna (VW, Audi, Seat, Škoda, Porsche) od 2010. godine nudimo opsežne opcije kodiranja putem VCDS i ODIS.",
+    vag_cat1: "🚗 Udobnost i Osvetljenje",
+    vag_f1: "Aktivacija Coming Home / Leaving Home",
+    vag_f2: "Automatsko sklapanje ogledala pri zaključavanju",
+    vag_f3: "Trajno deaktiviranje Start/Stop sistema (Memory)",
+    vag_f4: "Podešavanje boja i intenziteta ambijentalnog svetla",
+    vag_f5: "Deaktivacija zvuka alarma vrata",
+    vag_f6: "Automatska aktivacija kamere za vožnju unazad",
+    vag_f7: "Dnevna svetla kao asistent dalekog svetla",
+    vag_f8: "Podešavanje asistenta zadržavanja trake (Lane Assist)",
+    vag_f9: "Aktivacija svetla u krivini / svetla pri skretanju",
+    vag_f10: "Deaktivacija treptanja pri pozdravljanju",
+    vag_f11: "Podešavanje osvetljenja enterijera",
+    vag_f12: "Kalibracija visine gepek vrata",
+    vag_cat2: "📱 Infotainment i Povezivost",
+    vag_g1: "Otključavanje Apple CarPlay (bežično i žično)",
+    vag_g2: "Aktivacija Android Auto",
+    vag_g3: "Otključavanje Video u Pokretu",
+    vag_g4: "Aktivacija MirrorLink funkcije",
+    vag_g5: "Otključavanje Bluetooth aptX kodeka",
+    vag_g6: "Podešavanje osvetljenja ekrana u auto režimu",
+    vag_g7: "Promena tona i melodije OPS senzora za parkiranje",
+    vag_g8: "Prikaz navigacijske mape u instrument tabli",
+    vag_g9: "Aktivacija glasovnog upravljanja",
+    vag_g10: "Aktivacija online usluga",
+    vag_g11: "Aktivacija always-on ekrana",
+    vag_g12: "Prikaz teksta radija i RDS podataka",
+    vag_cat3: "🔧 Šasija i Asistenti",
+    vag_h1: "Aktivacija profila vožnje (Sport/Comfort/Eco)",
+    vag_h2: "Mogućnost deaktivacije ESC/ESP kontrole vuče",
+    vag_h3: "Kalibracija asistenta kočenja",
+    vag_h4: "Podešavanje prednjeg asistenta (kočenje u nuždi)",
+    vag_h5: "Kalibracija asistenta promene trake (Side Assist)",
+    vag_h6: "Aktivacija adaptivnog tempomata ACC",
+    vag_h7: "Podešavanje prepoznavanja saobraćajnih znakova",
+    vag_h8: "Aktivacija monitora mrtve tačke",
+    vag_h9: "Podešavanje detekcije umora vozača",
+    vag_h10: "Kalibracija sistema pritiska u gumama (TPMS)",
+    vag_cat4: "⚡ Motor i Menjač",
+    vag_i1: "Ručno pokretanje DPF regeneracije",
+    vag_i2: "Reset servisnog intervala (ulje, inspekcija)",
+    vag_i3: "Reset vrednosti adaptacije nakon radova na motoru",
+    vag_i4: "Adaptacija leptira gasa",
+    vag_i5: "Prikaz temperature ulja menjača",
+    vag_i6: "Aktivacija Launch Control",
+    vag_i7: "Podešavanje zvučnog aktuatora (Virtual Engine Sound)",
+    vag_i8: "Promena ponašanja zaklopke izduvnih gasova",
+    vag_i9: "Kalibracija prikaza potrošnje goriva",
+    vag_i10: "Kodiranje i adaptacija baterije nakon zamene",
+    vag_cta: "Niste sigurni da li je vaš VAG model podržan? Pošaljite nam VIN — besplatno proveravamo sve dostupne opcije.",
+    btn_check: "Proveri Kompatibilnost",
+    bmw_tag: "BMW Grupa",
+    bmw_title: "BMW Funkcije Kodiranja",
+    bmw_intro: "Za sva BMW i MINI vozila od 2010. godine nudimo profesionalno kodiranje putem E-SYS, ISTA i NCS Expert.",
+    bmw_cat1: "🚗 Udobnost i Osvetljenje",
+    bmw_f1: "Aktivacija Coming Home / Leaving Home svetla",
+    bmw_f2: "Automatsko sklapanje retrovizora pri zaključavanju",
+    bmw_f3: "Memorisanje deaktivacije Start/Stop",
+    bmw_f4: "Podešavanje boja i zona ambijentalnog svetla",
+    bmw_f5: "Osvetljenje dnevnih svetala (DRL)",
+    bmw_f6: "Aktivacija adаptivnih svetala u krivini",
+    bmw_f7: "Dobrodošlice svetlo / svetlo enterijera pri dočeku",
+    bmw_f8: "Deaktivacija sirene pri zaključavanju",
+    bmw_f9: "Automatsko zaključavanje po brzini",
+    bmw_f10: "Kalibracija senzora kiše za brisače",
+    bmw_f11: "Treperenje svetala pri kočenju u nuždi",
+    bmw_f12: "Konfiguracija kratkih svetala kao dnevnih",
+    bmw_cat2: "📱 iDrive i Infotainment",
+    bmw_g1: "Otključavanje Apple CarPlay (bežično i žično)",
+    bmw_g2: "Aktivacija Android Auto",
+    bmw_g3: "Otključavanje Video u Pokretu",
+    bmw_g4: "Aktivacija MirrorLink",
+    bmw_g5: "Otključavanje Netflix/YouTube u stajanju",
+    bmw_g6: "Navigacijska mapa u digitalnoj instrument tabli",
+    bmw_g7: "Konfiguracija HUD (Head-Up Display)",
+    bmw_g8: "Podešavanje pozadinske boje iDrive",
+    bmw_g9: "Aktivacija DAB+ radija",
+    bmw_g10: "Podešavanje tona PDC senzora za parkiranje",
+    bmw_g11: "Aktivacija 360° kamere",
+    bmw_g12: "Optimizacija glasovnog upravljanja",
+    bmw_cat3: "🏎️ M-Sport i Performanse",
+    bmw_h1: "Podešavanje M-Individual režima upravljača",
+    bmw_h2: "Konfiguracija M Drive memorije",
+    bmw_h3: "Aktivacija Launch Control",
+    bmw_h4: "Sport+ režim u birač vožnje",
+    bmw_h5: "Ponašanje zaklopke izduvnih u Sport režimu",
+    bmw_h6: "Podešavanje Sound Booster (zvuk motora)",
+    bmw_h7: "Podešavanje raspodele momenta xDrive",
+    bmw_h8: "Individualna dodela M-tastera",
+    bmw_h9: "Sport prikaz: ugao volana, G-sila, temperatura ulja",
+    bmw_h10: "DSC OFF trajno dostupan",
+    bmw_cat4: "⚡ Servis i Dijagnostika",
+    bmw_i1: "Reset servisnog intervala (CBS)",
+    bmw_i2: "Kodiranje i adaptacija nove baterije",
+    bmw_i3: "Otvaranje ručne kočnice za zamenu pločica",
+    bmw_i4: "Adaptacija upravljačke jedinice nakon zamene",
+    bmw_i5: "Adaptacija leptira gasa / upravljača",
+    bmw_i6: "Pokretanje DPF/DPF2 regeneracije",
+    bmw_i7: "Čitanje i brisanje grešaka (sve UJ)",
+    bmw_i8: "Praćenje živih podataka (motor, menjač, kočnice)",
+    bmw_i9: "Programiranje / kodiranje grejanja u stajanju",
+    bmw_i10: "Čitanje VIN / FIN informacija vozila",
+    bmw_cta: "Pitanja o kompatibilnosti BMW? Podržavamo sve serije od 1-e do 7-e i X modele.",
+    pkg_tag: "Ponude",
+    pkg_title: "Paketi Kodiranja",
+    pkg_intro: "Izaberite paket i kliknite da vidite tačan obim usluge. Svi paketi uključuju dolazak (+ troškovi prevoza).",
+    pkg_from: "od",
+    pkg1_name: "Basic",
+    pkg1_f1: "1 pojedinačno kodiranje po izboru",
+    pkg1_f2: "npr. Start/Stop Memory ili sklapanje retrovizora",
+    pkg1_f3: "Izvođenje na licu mesta (15–20 min.)",
+    pkg1_f4: "Reverzibilno u bilo kom trenutku",
+    pkg1_f5: "Bez ograničenja garancije",
+    pkg_popular: "Popularno",
+    pkg2_name: "Comfort",
+    pkg2_f1: "2–3 kodiranja po izboru",
+    pkg2_f2: "Start/Stop Memory + Sklapanje retrovizora + Coming Home",
+    pkg2_f3: "Ili druga kombinacija po dogovoru",
+    pkg2_f4: "Izvođenje na licu mesta (20–30 min.)",
+    pkg2_f5: "Potpuno reverzibilno",
+    pkg2_f6: "Evidencija svih promena",
+    pkg3_name: "Premium",
+    pkg3_f1: "Potpuni paket kodiranja (sve funkcije udobnosti)",
+    pkg3_f2: "Start/Stop Memory",
+    pkg3_f3: "Automatsko sklapanje retrovizora",
+    pkg3_f4: "Coming Home / Leaving Home",
+    pkg3_f5: "Podešavanje ambijentalnog svetla",
+    pkg3_f6: "Deaktivacija treptanja pri pozdravljanju",
+    pkg3_f7: "Podešavanja Lane Assist",
+    pkg3_f8: "Trajanje: 30–45 minuta",
+    pkg3_f9: "Potpuno reverzibilno",
+    pkg4_name: "Full Coding",
+    pkg4_f1: "Kompletno kodiranje vozila",
+    pkg4_f2: "Aktivacija Apple CarPlay / Android Auto",
+    pkg4_f3: "Otključavanje Video u Pokretu",
+    pkg4_f4: "Kompletno ambijentalno svetlo",
+    pkg4_f5: "Sve funkcije udobnosti",
+    pkg4_f6: "Sve funkcije osvetljenja",
+    pkg4_f7: "Reset servisnog intervala",
+    pkg4_f8: "Kratka dijagnostika svih upravljačkih jedinica",
+    pkg4_f9: "Trajanje na licu mesta: 40–60 minuta",
+    pkg4_f10: "Pisana evidencija svih promena",
+    pkg4_f11: "Potpuno reverzibilno",
+    price_tag: "Transparentne Cene",
+    price_title: "Naš Cenovnik",
+    price_intro: "Sve cene uključuju PDV. Troškovi prevoza se naplaćuju posebno (obično 10–20 €). Bez skrivenih troškova.",
+    pcat1: "Dijagnostika",
+    pcat2: "Kodiranje",
+    pcat3: "Servisne Funkcije",
+    pcat4: "Aktivacije",
+    pcat5: "Infotainment",
+    pcat6: "Mobilna Usluga",
+    p1_1: "Osnovno skeniranje", p1_2: "Proširena dijagnostika", p1_3: "Živi podaci / DPF / Senzori",
+    p2_1: "Pojedinačno kodiranje", p2_2: "Paket 2–3 kodiranja", p2_3: "Potpuni paket kodiranja",
+    p3_1: "Reset servisnog intervala", p3_2: "Servis električne ručne kočnice", p3_3: "Individualne adaptacije",
+    p4_1: "Start/Stop Memory", p4_2: "Sklapanje retrovizora", p4_3: "Coming/Leaving Home", p4_4: "Ambijentalno svetlo", p4_5: "Video u Pokretu",
+    p5_1: "Aktivacija Apple CarPlay", p5_2: "Aktivacija Android Auto", p5_3: "DPF Regeneracija",
+    p6_1: "Troškovi prevoza Nirenberg", p6_2: "Dolazak okoline Bavarske", p6_3: "Trajanje na licu mesta",
+    price_note: "Sve navedene cene su orijentacione. Tačna cena se saopštava nakon provere vozila. Bez skrivenih troškova — besplatna prethodna informacija putem telefona ili WhatsApp-a.",
+    faq_tag: "Česta Pitanja",
+    faq_title: "FAQ — Sve što trebate znati",
+    faq_q1: "Da li je kodiranje bezbedno za moje vozilo?",
+    faq_a1: "Da, apsolutno. Koristimo isključivo originalni softver proizvođača (VCDS, ODIS, E-SYS, ISTA). Nijedna hardverska komponenta se ne menja, nema čip tjuninga, nema stranog softvera. Kodiranja su 100% reverzibilna.",
+    faq_q2: "Da li gubim garanciju kroz kodiranje?",
+    faq_a2: "Ne. Budući da menjamo samo softverske parametre i ne modifikujemo hardver, garancija na vaše vozilo ostaje u potpunosti na snazi. Sve promene su reverzibilne i ne ostavljaju tragove.",
+    faq_q3: "Koliko dugo traje kodiranje?",
+    faq_a3: "Tipičan kodirni obilazak traje između 15 i 40 minuta na licu mesta. Pojedinačna kodiranja su često gotova za 10–15 minuta. Kompletan premium paket može trajati do 60 minuta.",
+    faq_q4: "Koja vozila su podržana?",
+    faq_a4: "Podržavamo sva VAG vozila (VW, Audi, Seat, Škoda, Porsche) i BMW / MINI od 2010. Pošaljite nam VIN — besplatno proveravamo sve dostupne opcije kodiranja.",
+    faq_q5: "Da li se pojavljuju kontrolne lampice nakon kodiranja?",
+    faq_a5: "Ne. Kod ispravno izvedenog kodiranja ne pojavljuju se poruke o greškama niti kontrolne lampice. Proveravamo sve upravljačke jedinice na kodove grešaka nakon svakog kodiranja.",
+    faq_q6: "Da li dolazite kod mene kući?",
+    faq_a6: "Da, to je upravo naša osnovna usluga. Naš tehničar dolazi direktno kod vas — kući, na posao ili na bilo koje mesto u Nirenbergu i celoj Bavarskoj.",
+    faq_q7: "Mogu li zatražiti individualnu funkciju?",
+    faq_a7: "Da, naravno. Ako želite specifičnu funkciju, pitajte nas. Proverićemo izvodljivost za vaš model vozila i obavestiti vas o mogućnostima.",
+    faq_q8: "Koji softver koristite?",
+    faq_a8: "Isključivo originalni softver proizvođača: VCDS (Ross-Tech) za VAG, ODIS (VW Group), E-SYS i ISTA za BMW, plus NCS Expert za starije BMW modele. Bez piratskog softvera.",
+    con_tag: "Kontaktirajte Nas",
+    con_title: "Kontakt i Lokacija",
+    con_intro: "Dostupni smo putem telefona, WhatsApp-a i e-maila. Pozovite nas ili napišite — odgovaramo brzo i jednostavno.",
+    ci_phone: "Telefon / WhatsApp",
+    ci_email: "E-Mail",
+    ci_loc: "Lokacija",
+    ci_loc_val: "Nirenberg i cela Bavarska\nMobilna usluga — dolazimo kod vas",
+    ci_hours: "Dostupnost",
+    ci_hours_val: "Pon–Pet: 09:00–19:00\nSub: 09:00–17:00",
+    con_cta: "Zatražite proveru kompatibilnosti vozila — pošaljite nam VIN/FIN za besplatnu prethodnu proveru.",
+    warranty_title: "Garancija i Bezbednost",
+    warranty_text: "Sva naša kodiranja su potpuno reverzibilna. Koristimo isključivo originalni softver proizvođača. Bez modifikacija hardvera. Bez kontrolnih lampica. Bez rizika za garanciju.",
+    float_wa: "Pišite na WhatsApp",
+    float_call: "Pozovite sada",
+    footer_hours: "Pon–Sub 09:00–19:00 · +49 1573 6762046 · kfz.coding.servis@gmail.com",
+    footer_rights: "© 2024 DriveCoding Bayern. Sva prava zadržana."
+  }
+};
+
+let currentLang = 'de';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang] && i18n[lang][key] !== undefined) {
+      el.innerHTML = i18n[lang][key];
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+// =================== SCROLL & NAV ===================
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('mobile-open');
+    }
+  }
+  return false;
+}
+
+// Active nav highlight
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('#nav-links a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+
+sections.forEach(s => observer.observe(s));
+
+// Section fade in
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+sections.forEach(s => fadeObserver.observe(s));
+
+// =================== MOBILE SIDEBAR ===================
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+// Prevent nav link default
+document.querySelectorAll('#nav-links a').forEach(a => {
+  a.addEventListener('click', e => e.preventDefault());
+});
+
+// =================== PACKAGES ===================
+function togglePkg(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// =================== FAQ ===================
+function toggleFaq(q) {
+  const item = q.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Init
+document.getElementById('home').classList.add('visible');
+
+// Typing effect for logo tagline
+setTimeout(() => {
+  const sub = document.querySelector('.logo-sub');
+  if (sub) {
+    const text = sub.textContent;
+    sub.textContent = '';
+    let i = 0;
+    const t = setInterval(() => {
+      sub.textContent += text[i++];
+      if (i >= text.length) clearInterval(t);
+    }, 60);
+  }
+}, 500);
 </script>
 </body>
 </html>
