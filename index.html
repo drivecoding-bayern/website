@@ -1,121 +1,123 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DriveCoding Bayern</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b1118;--card:#121b26;--accent:#3fd0ff;--text:#e8f1f8}
+:root{--bg:#0a0f15;--panel:#121a23;--accent:#39c2ff;--text:#e8f3ff}
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text)}
-nav{position:fixed;top:0;width:100%;background:#081018;border-bottom:1px solid #1c2a39;z-index:10}
-nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
-nav h1{font-family:Orbitron;margin:0;color:var(--accent);cursor:pointer}
-nav ul{list-style:none;display:flex;gap:18px;margin:0;padding:0}
-nav li{cursor:pointer}
-.lang button{margin-left:6px;background:#162230;border:none;color:white;padding:6px 10px;border-radius:6px}
-section{padding:100px 20px 70px;max-width:1200px;margin:auto}
+body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
+header{position:fixed;top:0;width:100%;background:#070b10;border-bottom:1px solid #1c2a38;z-index:50}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding:14px 25px}
+.logo{font-family:Orbitron;color:var(--accent);font-size:22px;cursor:pointer}
+.lang button{margin-left:6px;background:#18222e;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}
+.container{display:flex;margin-top:70px}
+.sidebar{width:230px;background:#0d141c;min-height:100vh;padding:20px;border-right:1px solid #1c2a38}
+.sidebar button{display:block;width:100%;margin:8px 0;padding:12px;background:#15202c;border:none;color:#fff;border-radius:8px;text-align:left;cursor:pointer}
+.sidebar button:hover{background:#1f2d3c}
+.content{flex:1;padding:35px;}
+section{display:none;animation:fade .3s}
+section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
-.hero img{width:100%;border-radius:16px}
-.card{background:var(--card);padding:18px;border-radius:14px;margin:14px 0}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.grid-img{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.grid-img img{width:100%;border-radius:14px}
-.package{cursor:pointer;border:1px solid #2a3a4f}
-.package:hover{background:#162433}
-.package-details{display:none;margin-top:10px;padding:12px;background:#0f1720;border-radius:10px}
-.btn{display:inline-block;margin-top:15px;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold}
-.call{background:#22c55e;color:#062}
-.wa{background:#25D366;color:white;margin-left:10px}
-footer{text-align:center;padding:20px;background:#081018;margin-top:40px}
+.hero img{width:100%;border-radius:14px}
+.card{background:var(--panel);padding:18px;border-radius:12px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.grid img{width:100%;border-radius:12px}
+.package{cursor:pointer;border:1px solid #2a3b4d}
+.package-details{display:none;margin-top:10px;background:#0e151d;padding:10px;border-radius:10px}
+.call{position:fixed;right:25px;bottom:25px;background:#22c55e;padding:14px 20px;border-radius:30px;color:#032;font-weight:bold;text-decoration:none}
+footer{text-align:center;margin-top:40px;padding:20px;background:#070b10}
 </style>
 </head>
 <body>
-<nav>
+<header>
 <div class="wrap">
-<h1 onclick="go('home')">DriveCoding Bayern</h1>
-<ul>
-<li onclick="go('home')">Start</li>
-<li onclick="go('services')">Leistungen</li>
-<li onclick="go('vag')">VAG</li>
-<li onclick="go('bmw')">BMW</li>
-<li onclick="go('prices')">Pakete</li>
-<li onclick="go('gallery')">Galerie</li>
-<li onclick="go('contact')">Kontakt</li>
-</ul>
+<div class="logo" onclick="openSection('home')">DriveCoding Bayern</div>
 <div class="lang">
 <button onclick="setLang('de')">DE</button>
 <button onclick="setLang('en')">EN</button>
 <button onclick="setLang('sr')">SR</button>
 </div>
 </div>
-</nav>
-
-<section id="home">
-<div class="hero">
-<div>
-<h2 id="home_title">Professionelle Fahrzeugcodierung in Nürnberg</h2>
-<p id="home_text">VAG & BMW Fahrzeuge ab Baujahr 2010+. Freischaltung versteckter Funktionen, Diagnose und Nachrüstung.</p>
-<a class="btn call" href="tel:+4915736762046" id="callBtn">Jetzt anrufen</a>
-<a class="btn wa" href="https://wa.me/4915736762046">WhatsApp</a>
+</header>
+<div class="container">
+<div class="sidebar">
+<button onclick="openSection('home')" data-t="nav_home">Start</button>
+<button onclick="openSection('services')" data-t="nav_services">Leistungen</button>
+<button onclick="openSection('vag')">VAG</button>
+<button onclick="openSection('bmw')">BMW</button>
+<button onclick="openSection('packages')" data-t="nav_packages">Pakete</button>
+<button onclick="openSection('gallery')" data-t="nav_gallery">Galerie</button>
+<button onclick="openSection('contact')" data-t="nav_contact">Kontakt</button>
 </div>
+<div class="content">
+<section id="home" class="active">
+<h2 data-t="home_title">Professionelle Codierung & Diagnose in Nürnberg</h2>
+<p data-t="home_desc">Wir codieren VAG & BMW Fahrzeuge ab Baujahr 2010+. Freischaltungen, Nachrüstungen und Diagnose vor Ort.</p>
+<div class="hero">
+<div class="grid">
+<img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a">
+<img src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f">
+<img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2">
 <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537">
 </div>
-</section>
-
-<section id="services">
-<h2>Leistungen</h2>
-<div class="cards">
-<div class="card">Diagnose & Fehlerspeicher</div>
-<div class="card">Codierung & Freischaltungen</div>
-<div class="card">CarPlay / Android Auto</div>
-<div class="card">Ambientebeleuchtung</div>
-<div class="card">Video in Motion</div>
-<div class="card">Assistenzsysteme Aktivierung</div>
+<div class="card">
+<h3 data-t="why_title">Warum wir?</h3>
+<p data-t="why_desc">Mobile Service im Raum Nürnberg & Bayern. Original Software – keine Schäden, jederzeit rückgängig.</p>
+</div>
 </div>
 </section>
-
+<section id="services">
+<h2>Leistungen</h2>
+<div class="grid">
+<div class="card">Fehlerspeicher Diagnose</div>
+<div class="card">CarPlay & Android Auto Aktivierung</div>
+<div class="card">Ambientebeleuchtung Freischaltung</div>
+<div class="card">Assistenzsysteme Codierung</div>
+<div class="card">Nachrüstung Funktionen</div>
+<div class="card">DPF & Sensor Live Daten</div>
+</div>
+</section>
 <section id="vag">
 <h2>VAG Funktionen</h2>
-<div class="card">App Connect, Spiegelanklappen, Lane Assist Memory, Coming Home, Virtual Cockpit Optionen, Verkehrszeichenerkennung</div>
+<div class="card">Start Stop Memory, Spiegel anklappen, Lane Assist, Verkehrszeichenerkennung, App Connect, Virtual Cockpit Optionen, Coming Leaving Home</div>
 </section>
-
 <section id="bmw">
 <h2>BMW Funktionen</h2>
-<div class="card">CarPlay Fullscreen, Sportanzeigen, Gurtwarner deaktivieren, Ambientebeleuchtung, Remote Start</div>
+<div class="card">CarPlay Fullscreen, Sportanzeigen, Ambientebeleuchtung, Video in Motion, Gurtwarner deaktivieren, Remote Start</div>
 </section>
-
-<section id="prices">
-<h2>Pakete</h2>
-<div class="card package" onclick="toggle(this)"><b>Basis Paket – 70€</b><div class="package-details">Diagnose<br>1-2 Codierungen<br>Service Reset</div></div>
-<div class="card package" onclick="toggle(this)"><b>Komfort Paket – 120€</b><div class="package-details">Start Stop Memory<br>Spiegel anklappen<br>Ambientebeleuchtung</div></div>
-<div class="card package" onclick="toggle(this)"><b>Premium Paket – 180€</b><div class="package-details">CarPlay Aktivierung<br>Video in Motion<br>Sportanzeigen</div></div>
+<section id="packages">
+<h2 data-t="nav_packages">Pakete</h2>
+<div class="card package" onclick="toggle(this)"><b>Basis 70€</b><div class="package-details">Diagnose + 2 Codierungen + Service Reset</div></div>
+<div class="card package" onclick="toggle(this)"><b>Komfort 120€</b><div class="package-details">Start Stop + Spiegel + Lichtoptionen</div></div>
+<div class="card package" onclick="toggle(this)"><b>Premium 180€</b><div class="package-details">CarPlay + Video in Motion + Anzeigen</div></div>
 </section>
-
 <section id="gallery">
 <h2>Galerie</h2>
-<div class="grid-img">
+<div class="grid">
 <img src="https://images.unsplash.com/photo-1555617117-08cfaec7a9e6">
 <img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
 <img src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7">
 </div>
 </section>
-
 <section id="contact">
 <h2>Kontakt</h2>
-<p>Telefon / WhatsApp: +49 1573 6762046</p>
-<p>Email: kfz.coding.servis@gmail.com</p>
-<iframe src="https://maps.google.com/maps?q=nurnberg&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;border-radius:12px"></iframe>
+<p>+49 1573 6762046</p>
+<p>kfz.coding.servis@gmail.com</p>
+<iframe src="https://maps.google.com/maps?q=nurnberg&output=embed" width="100%" height="300" style="border:0;border-radius:12px"></iframe>
 </section>
-
+</div>
+</div>
+<a class="call" href="tel:+4915736762046" id="callbtn">Jetzt anrufen</a>
 <footer>© 2026 DriveCoding Bayern</footer>
-
 <script>
-function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function openSection(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function toggle(el){let d=el.querySelector('.package-details');d.style.display=d.style.display==='block'?'none':'block'}
-const dict={de:{call:'Jetzt anrufen'},en:{call:'Call now'},sr:{call:'Pozovi odmah'}};
-function setLang(l){document.getElementById('callBtn').textContent=dict[l].call}
+const dict={de:{nav_home:'Start',nav_services:'Leistungen',nav_packages:'Pakete',nav_gallery:'Galerie',nav_contact:'Kontakt',home_title:'Professionelle Codierung & Diagnose in Nürnberg',home_desc:'Wir codieren VAG & BMW Fahrzeuge ab Baujahr 2010+. Freischaltungen, Nachrüstungen und Diagnose vor Ort.',why_title:'Warum wir?',why_desc:'Mobile Service im Raum Nürnberg & Bayern. Original Software – keine Schäden, jederzeit rückgängig.',call:'Jetzt anrufen'},en:{nav_home:'Home',nav_services:'Services',nav_packages:'Packages',nav_gallery:'Gallery',nav_contact:'Contact',home_title:'Professional coding & diagnostics in Nuremberg',home_desc:'We code VAG & BMW vehicles from 2010+. Activations and retrofit functions.',why_title:'Why us?',why_desc:'Mobile service in Bavaria. Safe and reversible.',call:'Call now'},sr:{nav_home:'Pocetna',nav_services:'Usluge',nav_packages:'Paketi',nav_gallery:'Galerija',nav_contact:'Kontakt',home_title:'Profesionalno kodiranje u Nirnbergu',home_desc:'Radimo VAG i BMW vozila od 2010+. Aktivacije i dijagnostika.',why_title:'Zasto mi?',why_desc:'Mobilni servis Bavarska.',call:'Pozovi odmah'}};
+function setLang(l){document.querySelectorAll('[data-t]').forEach(e=>e.innerText=dict[l][e.dataset.t]);document.getElementById('callbtn').innerText=dict[l].call}
 setLang('de');
 </script>
 </body>
